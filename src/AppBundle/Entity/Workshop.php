@@ -49,6 +49,12 @@ class Workshop
      */
     private $isPublic;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="wor_is_archived", type="boolean")
+     */
+    private $isArchived;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
