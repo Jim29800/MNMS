@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Contributors list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Maxnumber</th>
+                <th>Ismnms</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contributor in contributors %}
+            <tr>
+                <td><a href="{{ path('workshop_contributor_show', { 'id': contributor.id }) }}">{{ contributor.id }}</a></td>
+                <td>{{ contributor.name }}</td>
+                <td>{{ contributor.maxNumber }}</td>
+                <td>{% if contributor.isMnms %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('workshop_contributor_show', { 'id': contributor.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('workshop_contributor_edit', { 'id': contributor.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('workshop_contributor_new') }}">Create a new contributor</a>
+        </li>
+    </ul>
+{% endblock %}

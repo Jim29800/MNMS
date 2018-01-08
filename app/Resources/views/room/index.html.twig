@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Rooms list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Zipcode</th>
+                <th>Country</th>
+                <th>Area</th>
+                <th>Maxpeople</th>
+                <th>Islet</th>
+                <th>Projection</th>
+                <th>Exit</th>
+                <th>Wall</th>
+                <th>Paperboard</th>
+                <th>Needplace</th>
+                <th>Placenumberpeople</th>
+                <th>Placenumberislet</th>
+                <th>Placearea</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for room in rooms %}
+            <tr>
+                <td><a href="{{ path('workshop_room_show', { 'id': room.id }) }}">{{ room.id }}</a></td>
+                <td>{{ room.Name }}</td>
+                <td>{{ room.Address }}</td>
+                <td>{{ room.City }}</td>
+                <td>{{ room.Zipcode }}</td>
+                <td>{{ room.Country }}</td>
+                <td>{{ room.Area }}</td>
+                <td>{{ room.MaxPeople }}</td>
+                <td>{% if room.Islet %}Yes{% else %}No{% endif %}</td>
+                <td>{% if room.Projection %}Yes{% else %}No{% endif %}</td>
+                <td>{% if room.Exit %}Yes{% else %}No{% endif %}</td>
+                <td>{% if room.Wall %}Yes{% else %}No{% endif %}</td>
+                <td>{% if room.Paperboard %}Yes{% else %}No{% endif %}</td>
+                <td>{% if room.NeedPlace %}Yes{% else %}No{% endif %}</td>
+                <td>{{ room.PlaceNumberPeople }}</td>
+                <td>{{ room.PlaceNumberIslet }}</td>
+                <td>{{ room.PlaceArea }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('workshop_room_show', { 'id': room.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('workshop_room_edit', { 'id': room.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('workshop_room_new') }}">Create a new room</a>
+        </li>
+    </ul>
+{% endblock %}

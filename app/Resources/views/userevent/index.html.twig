@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Userevents list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Isparticipating</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for userEvent in userEvents %}
+            <tr>
+                <td><a href="{{ path('workshop_event_participant_show', { 'id': userEvent.id }) }}">{{ userEvent.id }}</a></td>
+                <td>{% if userEvent.isParticipating %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('workshop_event_participant_show', { 'id': userEvent.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('workshop_event_participant_edit', { 'id': userEvent.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('workshop_event_participant_new') }}">Create a new userEvent</a>
+        </li>
+    </ul>
+{% endblock %}

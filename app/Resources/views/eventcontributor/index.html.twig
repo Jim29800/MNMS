@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Eventcontributors list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Needednumber</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for eventContributor in eventContributors %}
+            <tr>
+                <td><a href="{{ path('workshop_contributor_list_show', { 'id': eventContributor.id }) }}">{{ eventContributor.id }}</a></td>
+                <td>{{ eventContributor.neededNumber }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('workshop_contributor_list_show', { 'id': eventContributor.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('workshop_contributor_list_edit', { 'id': eventContributor.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('workshop_contributor_list_new') }}">Create a new eventContributor</a>
+        </li>
+    </ul>
+{% endblock %}

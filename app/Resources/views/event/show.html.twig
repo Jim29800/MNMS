@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Event</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ event.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{% if event.date %}{{ event.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Isover</th>
+                <td>{% if event.isOver %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Isreturned</th>
+                <td>{% if event.isReturned %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('workshop_event_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('workshop_event_edit', { 'id': event.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

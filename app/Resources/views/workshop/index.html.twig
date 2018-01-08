@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Workshops list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Problem</th>
+                <th>Goal</th>
+                <th>Ispublic</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for workshop in workshops %}
+            <tr>
+                <td><a href="{{ path('workshop_show', { 'id': workshop.id }) }}">{{ workshop.id }}</a></td>
+                <td>{{ workshop.title }}</td>
+                <td>{{ workshop.problem }}</td>
+                <td>{{ workshop.goal }}</td>
+                <td>{% if workshop.isPublic %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('workshop_show', { 'id': workshop.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('workshop_edit', { 'id': workshop.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('workshop_new') }}">Create a new workshop</a>
+        </li>
+    </ul>
+{% endblock %}

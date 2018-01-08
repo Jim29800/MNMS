@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Userevent</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ userEvent.id }}</td>
+            </tr>
+            <tr>
+                <th>Isparticipating</th>
+                <td>{% if userEvent.isParticipating %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('workshop_event_participant_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('workshop_event_participant_edit', { 'id': userEvent.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

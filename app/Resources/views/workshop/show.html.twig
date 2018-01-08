@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Workshop</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ workshop.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ workshop.title }}</td>
+            </tr>
+            <tr>
+                <th>Problem</th>
+                <td>{{ workshop.problem }}</td>
+            </tr>
+            <tr>
+                <th>Goal</th>
+                <td>{{ workshop.goal }}</td>
+            </tr>
+            <tr>
+                <th>Ispublic</th>
+                <td>{% if workshop.isPublic %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('workshop_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('workshop_edit', { 'id': workshop.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
