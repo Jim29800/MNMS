@@ -5,6 +5,10 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+// ...
 
 class UserType extends AbstractType
 {
@@ -13,7 +17,49 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstname')->add('lastname')->add('avatar')->add('function')->add('leaderOid');
+        
+        $builder->add('firstname', null, array(
+            'attr' => ['class'=> 'form-control form-bottom-margin',
+                        'placeholder' => 'Prénom' ]
+        ))
+        ->add('lastname', null, array(
+                'attr' => ['class' => 'form-control form-bottom-margin',
+                'placeholder' => ' Nom ']
+            ))
+        ->add('avatar', FileType::class, array(
+                'attr' => ['placeholder' => 'Votre image de profil',
+                'class' => 'form-bottom-margin']
+    
+            ))
+        ->add('email', null, array(
+            'attr' => ['class' => 'form-control form-bottom-margin',
+                    'placeholder' => 'Adresse email']
+            ))
+        ->add('username', null, array(
+                'attr' => ['class' => 'form-control form-bottom-margin', 'placeholder' => 'Nom d\'utilisateur']
+            ))
+        ->add('plainPassword', RepeatedType::class, array(
+            'type' => PasswordType::class,
+            'invalid_message' => 'Les mots de passe ne correspondent pas.',
+            'options' => array('attr' => array('class' => 'form-control form-bottom-margin')),
+            'required' => true,
+            'first_options' => array('attr' => ['class' => 'form-control form-bottom-margin', 'placeholder' => 'Mot de passe']),
+            'second_options' => array('attr' => ['class' => 'form-control form-bottom-margin', 'placeholder' => 'Confirmer le mot de passe']),
+        ));
+        // ==================================================================
+        // if(!$participant){
+        //     return $builder;
+        // }else{
+        //     $builder->add('function', null, array(
+        //     'label' => 'Fonction',
+        //     'attr' => ['class' => 'form-control']
+        // ))
+        // ->add('leaderOid', null, array(
+        //     'label' => 'Id du leader (à changer)',
+        //     'attr' => ['class' => 'form-control']
+        // ));
+        // }
+        // ==================================================================
     }
     public function getParent()
     {
@@ -39,3 +85,7 @@ class UserType extends AbstractType
 
 
 }
+
+
+
+    

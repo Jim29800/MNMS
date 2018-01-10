@@ -1,0 +1,86 @@
+/*##########################################################################
+GENERIQUE
+*/
+.orangeBold {
+    color: rgb(255, 123, 0);
+    font-weight: bold;
+}
+
+.redBold {
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+}
+
+.form-bottom-margin{
+    margin-bottom: 10px;
+}
+/*##########################################################################
+login / register
+*/
+.login {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+    padding : 40px 0px 40px 0px;
+}
+
+.profile-img-card {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 1%;
+    margin-bottom: 20px;
+}
+
+/*##########################################################################
+navbar
+*/
+.navbar-default {
+    height: 25px;
+    padding-top: 6px;
+
+}
+
+#logo_navbar {
+    height: 40px;
+    width: auto;
+}
+
+#image_entreprise {
+    height: 35px;
+}
+
+#image_mes_ateliers {
+    height: 35px;
+    width: auto;
+}
+
+#titre {
+    font-size: 1.8em;
+    text-align: center;
+}
+
+.param_navbar {
+    height: 35px;
+    width: auto;
+    
+}
+
+.icon-navbar {
+    font-size: 25px;
+}
+
+.icon-logout {
+    margin-top: -30px;
+    /* padding-top: -70px; */
+}
+
+.icon-dropdown {
+    margin-top: 8px;
+    /* padding-top: 70px; */
+}
+/*##########################################################################
+/*##########################################################################
