@@ -170,6 +170,29 @@ class Workshop
     }
 
     /**
+     * Set isArchived
+     *
+     * @param boolean $isArchived
+     *
+     * @return Workshop
+     */
+    public function setIsArchived($isArchived)
+    {
+        $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    /**
+     * Get isArchived
+     *
+     * @return bool
+     */
+    public function getIsArchived()
+    {
+        return $this->isArchived;
+    }
+    /**
      * Set usrOid
      *
      * @param integer $usrOid

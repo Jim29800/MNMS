@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Workshop;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Workshop controller.
@@ -15,18 +16,28 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 class WorkshopController extends Controller
 {
     /**
-     * Lists all workshop entities.
+     * Choix de l'action à mener
      *
      * @Route("/", name="workshop_index")
      * @Method("GET")
      */
     public function indexAction()
     {
+        //indexAction terminer
+        return $this->render("workshop/index.html.twig");
+    }
+    /**
+     * Liste les ateliers de l'utilisateur.
+     *
+     * @Route("/list", name="workshop_list")
+     * @Method("GET")
+     */
+    public function listAction()
+    {
+        $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-
-        $workshops = $em->getRepository('AppBundle:Workshop')->findAll();
-
-        return $this->render('workshop/index.html.twig', array(
+        $workshops = $em->getRepository('AppBundle:Workshop')->findByUsrOid($user->getId());
+        return $this->render('workshop/list.html.twig', array(
             'workshops' => $workshops,
         ));
     }
