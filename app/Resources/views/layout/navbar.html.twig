@@ -17,52 +17,53 @@
 
         <!-- icones à droite de la navbar -->
         <ul class="nav navbar-nav navbar-right">
-            <!-- images pour mes ateliers -->
-            <li class="hidden-xs">
-                <div class="image_navbar">
-                    <a class="" href="/workshop">
-                        <i class="glyphicon glyphicon-inbox icon-navbar "> </i>
-                    </a>
-                </div>
-            </li>
 
-            <!-- image pour mon profil -->
-            <li class="hidden-xs">
-                <div class="image_navbar">
-                    <a class="menu-profil" href="/profile">
-                        <i class="glyphicon glyphicon-user icon-navbar "> </i>
-                    </a>
-                </div>
-            </li>
-
-            <!-- dropdown des paramètres -->
-            <li>
-                <div class="dropdown ">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="glyphicon glyphicon-cog icon-navbar icon-dropdown"></i>
-
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">choisir une image</a>
-                        </li>
-                        <li>
-                            <a href="#">créer des collaborateurs</a>
-                        </li>
-                        <li>
-                            <a href="#">ce que je souhaite partager avec MNMS ou pas</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="#">adresse de facturation</a>
-                        </li>
-                        <li>
-                            <a href="#">moyen de paiement</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
             {% if app.user %}
+<!-- images pour mes ateliers -->
+<li class="hidden-xs">
+    <div class="image_navbar">
+        <a class="" href="/workshop">
+            <i class="glyphicon glyphicon-inbox icon-navbar "></i>
+        </a>
+    </div>
+</li>
+
+<!-- image pour mon profil -->
+<li class="hidden-xs">
+    <div class="image_navbar">
+        <a class="menu-profil" href="/profile">
+            <i class="glyphicon glyphicon-user icon-navbar "></i>
+        </a>
+    </div>
+</li>
+
+<!-- dropdown des paramètres -->
+<li>
+    <div class="dropdown ">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="glyphicon glyphicon-cog icon-navbar icon-dropdown"></i>
+
+            <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            <li>
+                <a href="#">choisir une image</a>
+            </li>
+            <li>
+                <a href="#">créer des collaborateurs</a>
+            </li>
+            <li>
+                <a href="#">ce que je souhaite partager avec MNMS ou pas</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li>
+                <a href="#">adresse de facturation</a>
+            </li>
+            <li>
+                <a href="#">moyen de paiement</a>
+            </li>
+        </ul>
+    </div>
+</li>
                 <li>
                     <a href="/logout">
                         <i class="glyphicon glyphicon-log-out icon-navbar icon-logout"></i>
