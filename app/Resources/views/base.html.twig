@@ -7,12 +7,13 @@
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
+        {% include 'layout/navbar.html.twig' %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.js') }}"></script>
+        <script src="{{ asset('js/navbar.js') }}"></script>
     </body>
 </html>
