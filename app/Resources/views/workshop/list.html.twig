@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mes ateliers</h1>
+    <div class="col-xs-12">
+        {% for workshop in workshops %}
+            <div class="col-xs-12 col-sm-6 col-md-4 form-bottom-margin">
+                <a class="btn btn-default btn-block" href="{{ path('workshop_show', { 'id': workshop.id }) }}">{{ workshop.title }}</a>
+            </div>
+
+        {% endfor %}
+
+    </div>
+    <div class="col-xs-12">
+        <br/>
+        <a class="btn btn-default btn-block" href="{{ path('workshop_new') }}">Create a new workshop</a>
+    </div>
+
+{% endblock %}

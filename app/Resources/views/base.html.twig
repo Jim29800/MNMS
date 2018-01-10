@@ -2,16 +2,17 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}MNMS{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
     </head>
     <body>
         {% include 'layout/navbar.html.twig' %}
         <div class="container">
-        {% block body %}{% endblock %}
+             {% block body %}{% endblock %}
         </div>
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/bootstrap.js') }}"></script>

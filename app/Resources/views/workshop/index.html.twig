@@ -1,45 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Workshops list</h1>
+<div class="text-center">
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Problem</th>
-                <th>Goal</th>
-                <th>Ispublic</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for workshop in workshops %}
-            <tr>
-                <td><a href="{{ path('workshop_show', { 'id': workshop.id }) }}">{{ workshop.id }}</a></td>
-                <td>{{ workshop.title }}</td>
-                <td>{{ workshop.problem }}</td>
-                <td>{{ workshop.goal }}</td>
-                <td>{% if workshop.isPublic %}Yes{% else %}No{% endif %}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('workshop_show', { 'id': workshop.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('workshop_edit', { 'id': workshop.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <h1>Atelier</h1>
+    <div class="btn-group-vertical btn-group-lg col-sm-offset-3 col-sm-6" role="group" aria-label="Selection">
+        <button id="new" class="btn btn-secondary btn-block">Nouvel atelier</button><br />
+    
+        <button id="list" class="btn btn-secondary">Mes ateliers en cours</button><br />
+    
+        <button id="archived" class="btn btn-secondary">Mes ateliers archivés</button><br />
+    </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('workshop_new') }}">Create a new workshop</a>
-        </li>
-    </ul>
+
+        
+</div>
+{% endblock %}
+{% block javascripts %}
+<script src="../js/workshop_index.js"></script>
 {% endblock %}

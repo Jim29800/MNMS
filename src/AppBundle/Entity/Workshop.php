@@ -49,6 +49,12 @@ class Workshop
      */
     private $isPublic;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="wor_is_archived", type="boolean")
+     */
+    private $isArchived;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
@@ -163,6 +169,29 @@ class Workshop
         return $this->isPublic;
     }
 
+    /**
+     * Set isArchived
+     *
+     * @param boolean $isArchived
+     *
+     * @return Workshop
+     */
+    public function setIsArchived($isArchived)
+    {
+        $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    /**
+     * Get isArchived
+     *
+     * @return bool
+     */
+    public function getIsArchived()
+    {
+        return $this->isArchived;
+    }
     /**
      * Set usrOid
      *
