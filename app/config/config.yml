@@ -138,3 +138,10 @@ assetic:
                 - "%kernel.root_dir%/../vendor/twbs/bootstrap/fonts/glyphicons-halflings-regular.woff"
 
             output: "fonts/glyphicons-halflings-regular.woff"
+
+easy_admin:
+    entities:
+        Utilisateur:
+            class: AppBundle\Entity\User
+            form:
+                fields: ['firstName', 'lastName', 'email', 'avatar', 'roles']

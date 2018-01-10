@@ -1,8 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Mes ateliers</h1>
-    <div class="col-xs-12">
+    <div class="col-xs-12 text-center">
+        {% if archive %}
+            <h1>Mes ateliers archivé</h1>
+        {% else %}
+            <h1>Mes ateliers</h1>
+        {% endif %}
+
         {% for workshop in workshops %}
             <div class="col-xs-12 col-sm-6 col-md-4 form-bottom-margin">
                 <a class="btn btn-default btn-block" href="{{ path('workshop_show', { 'id': workshop.id }) }}">{{ workshop.title }}</a>

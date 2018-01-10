@@ -5,5 +5,5 @@ $("#list").click(function () {
     window.location.replace("/workshop/list");
 })
 $("#archived").click(function () {
-    window.location.replace("/workshop/archived");
+    window.location.replace("/workshop/archived_list");
 })

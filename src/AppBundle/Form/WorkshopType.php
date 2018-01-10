@@ -13,12 +13,31 @@ class WorkshopType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('title')
-        ->add('problem')
-        ->add('goal')
-        ->add('isPublic')
-        ->add('isArchived')        
-        ->add('usrOid');
+        $builder->add('title', null, array(
+            'label' => 'Titre de l\'atelier ',
+            'attr' => [
+                'class' => 'form-control form-bottom-margin',
+                'placeholder' => ' Titre de l\'atelier '
+            ]
+        ))
+        ->add('problem', null, array(
+                'label' => 'Problème à résoudre ',
+                'attr' => [
+                    'class' => 'form-control form-bottom-margin',
+                    'placeholder' => ' Problème à résoudre '
+                ]
+            ))
+        ->add('goal', null, array(
+                'label' => 'Objectif ',
+                'attr' => [
+                    'class' => 'form-control form-bottom-margin',
+                    'placeholder' => ' Objectif '
+                ]
+            ))
+        ->add('isPublic', null, array(
+                'label' => 'Publique ',
+
+            ));
     }/**
      * {@inheritdoc}
      */

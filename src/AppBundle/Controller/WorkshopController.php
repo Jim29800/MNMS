@@ -26,31 +26,55 @@ class WorkshopController extends Controller
         //indexAction terminer
         return $this->render("workshop/index.html.twig");
     }
+    //function de la liste des atelier, argument archive vrai ou faux
+    public function workshopList(bool $archive)
+    {
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        return $workshops = $em->getRepository('AppBundle:Workshop')->findBy(array("usrOid" => $user->getId(), "isArchived" => $archive));
+    }
     /**
-     * Liste les ateliers de l'utilisateur.
+     * Liste les ateliers de l'utilisateur non archivés.
      *
      * @Route("/list", name="workshop_list")
      * @Method("GET")
      */
     public function listAction()
     {
-        $user = $this->getUser();
-        $em = $this->getDoctrine()->getManager();
-        $workshops = $em->getRepository('AppBundle:Workshop')->findByUsrOid($user->getId());
+        $workshops = $this->workshopList(false);
         return $this->render('workshop/list.html.twig', array(
             'workshops' => $workshops,
+            'archive' => false,
         ));
     }
-
     /**
-     * Creates a new workshop entity.
+     * Liste les ateliers de l'utilisateur archivés.
+     *
+     * @Route("/archived_list", name="workshop_list")
+     * @Method("GET")
+     */
+    public function archivedListAction()
+    {
+        $workshops = $this->workshopList(true);
+        return $this->render('workshop/list.html.twig', array(
+            'workshops' => $workshops,
+            'archive' => true,
+        ));
+    }
+    /**
+     * Création d'un atelier
      *
      * @Route("/new", name="workshop_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
     {
+        $user = $this->getUser();
         $workshop = new Workshop();
+        $workshop->setUsrOid($user);
+        $workshop->setIsArchived(false);
+        
+
         $form = $this->createForm('AppBundle\Form\WorkshopType', $workshop);
         $form->handleRequest($request);
 
@@ -77,7 +101,6 @@ class WorkshopController extends Controller
     public function showAction(Workshop $workshop)
     {
         $deleteForm = $this->createDeleteForm($workshop);
-
         return $this->render('workshop/show.html.twig', array(
             'workshop' => $workshop,
             'delete_form' => $deleteForm->createView(),
