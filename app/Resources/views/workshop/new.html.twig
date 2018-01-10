@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Workshop creation</h1>
-
-    {{ form_start(form) }}
+    <div class="col-xs-12 col-md-offset-3 col-md-6 text-center">
+        <h1>Création d'un atelier</h1>
+        {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
-    {{ form_end(form) }}
+        <input type="submit" class="btn btn-success btn-block" value="Créer l'atelier"/>
+        {{ form_end(form) }}
+        <br/>
+        <a class="btn btn-default btn-block" href="{{ path('workshop_list') }}">Revenir à mes ateliers</a>
+    </div>
 
-    <ul>
-        <li>
-            <a href="{{ path('workshop_index') }}">Back to the list</a>
-        </li>
-    </ul>
 {% endblock %}
