@@ -50,7 +50,7 @@ class WorkshopController extends Controller
     /**
      * Liste les ateliers de l'utilisateur archivés.
      *
-     * @Route("/archived_list", name="workshop_list")
+     * @Route("/archived_list", name="workshop_archived_list")
      * @Method("GET")
      */
     public function archivedListAction()
