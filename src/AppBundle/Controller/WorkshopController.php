@@ -83,7 +83,7 @@ class WorkshopController extends Controller
             $em->persist($workshop);
             $em->flush();
 
-            return $this->redirectToRoute('workshop_show', array('id' => $workshop->getId()));
+            return $this->redirectToRoute('workshop_list');
         }
 
         return $this->render('workshop/new.html.twig', array(
