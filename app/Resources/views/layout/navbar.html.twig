@@ -18,7 +18,7 @@
         <!-- icones à droite de la navbar -->
         <ul class="nav navbar-nav navbar-right">
             <!-- images pour mes ateliers -->
-            <li>
+            <li class="hidden-xs">
                 <div class="image_navbar">
                     <a class="" href="/workshop">
                         <img id="image_mes_ateliers" alt="mes ateliers" src="../images/mnms-logo.png">
@@ -27,7 +27,7 @@
             </li>
 
             <!-- image pour mon profil -->
-            <li>
+            <li class="hidden-xs">
                 <div class="image_navbar">
                     <a class="menu-profil" href="/profil">
                         <img id="image_entreprise" alt="image entreprise" src="../images/mnms-logo.png">
@@ -62,16 +62,25 @@
                     </ul>
                 </div>
             </li>
-            <li>
-                <a href="/logout">
-                    <i class="glyphicon glyphicon-log-out icon-navbar icon-logout"></i>
-                </a>
-            </li>
+            {% if app.user %}                
+                <li>
+                    <a href="/logout">
+                        <i class="glyphicon glyphicon-log-out icon-navbar icon-logout"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="/login">
+                        <i class="glyphicon glyphicon-log-in icon-navbar icon-logout"></i>
+                    </a>
+                </li>
+            {% endif %}
+
         </ul>
 
         <!-- Sidebar -->
     </nav>
-<div id="sidebar" style="display:none">
+    <div id="sidebar" style="display:none">
         <ul class="list-unstyled">
 
             <li>
@@ -106,5 +115,5 @@
             </li>
         </ul>
 
-</div>
+    </div>
 </section>
