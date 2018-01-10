@@ -1,0 +1,31 @@
+.login {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #F7F7F7;
+    padding : 40px 0px 40px 0px;
+}
+
+.profile-img-card {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 10px;
+    display: block;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 1%;
+    margin-bottom: 20px;
+}
+
+.orangeBold {
+    color: rgb(255, 123, 0);
+    font-weight: bold;
+}
+
+.redBold {
+    color: rgb(255, 0, 0);
+    font-weight: bold;
+}
+
+.form-bottom-margin{
+    margin-bottom: 10px;
+}
