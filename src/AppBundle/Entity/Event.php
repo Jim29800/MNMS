@@ -27,7 +27,11 @@ class Event
      * @ORM\JoinColumn(name="roo_oid", referencedColumnName="roo_oid")
      */
     private $rooOid;
-
+    /**
+     * @ORM\ManyToOne(targetEntity="Workshop")
+     * @ORM\JoinColumn(name="wor_oid", referencedColumnName="wor_oid")
+     */
+    private $worOid;
     /**
      * @var \DateTime
      *
@@ -84,6 +88,29 @@ class Event
         return $this->rooOid;
     }
 
+    /**
+     * Set worOid
+     *
+     * @param integer $worOid
+     *
+     * @return Event
+     */
+    public function setWorOid($worOid)
+    {
+        $this->worOid = $worOid;
+
+        return $this;
+    }
+
+    /**
+     * Get worOid
+     *
+     * @return int
+     */
+    public function getWorOid()
+    {
+        return $this->worOid;
+    }
     /**
      * Set date
      *
