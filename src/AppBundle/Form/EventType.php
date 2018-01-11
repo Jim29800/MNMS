@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 class EventType extends AbstractType
 {
     /**
@@ -13,8 +13,14 @@ class EventType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('date')->add('isOver')->add('isReturned')->add('rooOid')->add('worOid');
-    }/**
+        $builder->add('date', DateType::class, array('label' => 'date', 'widget' => 'single_text'))
+        ->add('title');        
+        //->add('isOver')
+        //->add('isReturned')
+        //->add('rooOid')
+        //->add('worOid');
+    }
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)

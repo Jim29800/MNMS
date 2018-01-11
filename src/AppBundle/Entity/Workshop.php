@@ -215,5 +215,9 @@ class Workshop
     {
         return $this->usrOid;
     }
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
 }
 
