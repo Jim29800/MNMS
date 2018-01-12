@@ -14,18 +14,6 @@ class RoomRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findAllRoom($id)
     {
-        // return $this->getEntityManager()
-        //     ->createQuery(
-        //         'SELECT r.name
-        //         FROM AppBundle:Room r 
-        //         INNER JOIN AppBundle:Event e
-        //         INNER JOIN AppBundle:Workshop w
-        //         WHERE r.id = e.rooOid
-        //         AND e.worOid = w.id
-        //         AND w.id = 1'
-        //     )
-        //     ->getResult();
-
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT r.Name, r.id

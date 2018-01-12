@@ -49,48 +49,18 @@ class EventController extends Controller
      */
     public function selectAction(Request $request, Event $event)
     {
+
         $data = $request->getContent();
         $em = $this->getDoctrine()->getManager();
 
-        // $repository = $this->getDoctrine()->getRepository(User::class);
-        // $user = $repository->findOneById(1);
         $user = $this->getUser();
         $rooms = $em->getRepository('AppBundle:Room')->findAllRoom($this->getUser());
-        
-        
-        
-        $form = $this->createForm('AppBundle\Form\EventType', $event)
-        ->add('rooOid'
-        , EntityType::class, [
-            'class' => 'AppBundle:Room',
-            'query_builder' => function (RoomRepository $repository) use ($user) {
-                $qb = $repository->createQueryBuilder('r');
-                var_dump($user);
-                
-                return $qb
-                            ->from('AppBundle:Event', 'e')
-                            ->leftJoin('e.worOid', 'w')
-                            ->where('w.usrOid = :user')
-                            ->andWhere('e.rooOid = r.id')                            
-                            ->andWhere('w.id = e.worOid')
-                            ->setParameter('user', $user->getId())
-                ;
-                
-                    }
-                ])
-                // 'SELECT r.Name, r.id
-                //     FROM AppBundle:Room r 
-                //     INNER JOIN AppBundle:Event e WITH r.id = e.rooOid
-                //     INNER JOIN AppBundle:Workshop w WITH e.worOid = w.id
-                //     WHERE w.usrOid = :id'
-                ;
 
-
-
+        $form = $this->createForm('AppBundle\Form\EventSelectType',$event, ["user" => $user]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('workshop_event_select', array('id' => $event->getId()));
         }
