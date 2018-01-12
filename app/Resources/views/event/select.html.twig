@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Selectionner la salle</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <input type="submit" value="Enregistrer la salle"/>
+    {{ form_end(form) }}
+<a class="btn btn-default btn-block" href="{{ path('workshop_event_room_new', { 'id': event.id }) }}">Ajouter une nouvelle salle</a>
+
+{% endblock %}

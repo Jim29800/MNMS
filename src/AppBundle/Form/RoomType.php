@@ -147,6 +147,7 @@ class RoomType extends AbstractType
             ));
       
     }/**
+
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)

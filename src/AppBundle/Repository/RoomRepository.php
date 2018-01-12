@@ -3,6 +3,8 @@
 namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 
+use Doctrine\ORM\EntityRepository;
+
 /**
  * RoomRepository
  *
@@ -12,18 +14,28 @@ use Doctrine\ORM\EntityRepository;
 class RoomRepository extends \Doctrine\ORM\EntityRepository
 {
 
-public function findAllRoom($id)
-{
+    public function findAllRoom($id)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT r.Name, r.id
+                FROM AppBundle:Room r 
+                INNER JOIN AppBundle:Event e WITH r.id = e.rooOid
+                INNER JOIN AppBundle:Workshop w WITH e.worOid = w.id
+                WHERE w.usrOid = :id'
+            )
+            ->setParameter('id', $id)
+            ->getResult();
+    }
 
-  return $this->getEntityManager() 
-    ->createQuery( 'SELECT r.Name, r.id 
-    FROM AppBundle:Room r 
-    INNER JOIN AppBundle:Event e 
-    WITH r.id = e.rooOid 
-    INNER JOIN AppBundle:Workshop w 
-    WITH e.worOid = w.id 
-    WHERE w.usrOid = :id' ) 
-    ->setParameter('id', $id) 
-    ->getResult(); 
-}
+
+        public function findLastRoom()
+    {
+        $qb = $this->createQueryBuilder('tc');
+        $qb->setMaxResults(1);
+        $qb->orderBy('tc.id', 'DESC');
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
 }

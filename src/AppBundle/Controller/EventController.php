@@ -3,9 +3,16 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Event;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Room;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\EventType;
+use Doctrine\ORM\EntityRepository;
+
+
 
 /**
  * Event controller.
@@ -14,6 +21,129 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class EventController extends Controller
 {
+
+
+    //Creation d'un evenement avec redirection pout ajout de salle : workshop_event_select
+    /**
+     * Creates a new event entity.
+     *
+     * @Route("/new", name="workshop_event_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newAction(Request $request)
+    {
+        $event = new Event();
+        $event->setIsOver(false)
+            ->setIsReturned(false);
+        $form = $this->createForm('AppBundle\Form\EventType', $event);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($event);
+            $em->flush();
+
+            return $this->redirectToRoute('workshop_event_select', array('id' => $event->getId()));
+        }
+
+        return $this->render('event/new.html.twig', array(
+            'event' => $event,
+            'form' => $form->createView(),
+        ));
+    }
+    /**
+     * workshop_event_select : selecteur des rooms lier à l'utilisateur
+     *
+     * @Route("/{id}/room/select", name="workshop_event_select")
+     * @Method({"GET", "POST"})
+     */
+    public function selectAction(Request $request, Event $event)
+    {
+
+        $data = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+
+        $form = $this->createForm('AppBundle\Form\EventSelectType', $event, ["user" => $user]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('workshop_event_contributor', array('id' => $event->getId()));
+        }
+
+        return $this->render('event/select.html.twig', array(
+            'event' => $event,
+            'form' => $form->createView(),
+
+        ));
+    }
+
+
+    /**
+     * workshop_event_room_new : selecteur des rooms lier à l'utilisateur
+     *
+     * @Route("/{id}/room/new", name="workshop_event_room_new")
+     * @Method({"GET", "POST"})
+     */
+    public function roomNewAction(Request $request, Event $event)
+    {
+        $room = new Room();
+        $form = $this->createForm('AppBundle\Form\RoomType', $room);
+        $form->handleRequest($request);
+
+        $data = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+
+        $form = $this->createForm('AppBundle\Form\RoomType', $room);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //room
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($room);
+            $em->flush();
+            //event
+
+
+            $last_room = $this->getDoctrine()->getRepository(Room::class)->findLastRoom();
+            $event->setRooOid($last_room);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('workshop_event_contributor', array('id' => $event->getId()));
+        }
+
+        return $this->render('room/new.html.twig', array(
+            'form' => $form->createView(),
+            'room' => $room,
+        ));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Lists all event entities.
      *
@@ -30,33 +160,6 @@ class EventController extends Controller
             'events' => $events,
         ));
     }
-
-    /**
-     * Creates a new event entity.
-     *
-     * @Route("/new", name="workshop_event_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        $event = new Event();
-        $form = $this->createForm('AppBundle\Form\EventType', $event);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($event);
-            $em->flush();
-
-            return $this->redirectToRoute('workshop_event_show', array('id' => $event->getId()));
-        }
-
-        return $this->render('event/new.html.twig', array(
-            'event' => $event,
-            'form' => $form->createView(),
-        ));
-    }
-
     /**
      * Finds and displays a event entity.
      *

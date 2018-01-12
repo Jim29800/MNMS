@@ -527,5 +527,9 @@ class Room
     {
         return $this->PlaceArea;
     }
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
 

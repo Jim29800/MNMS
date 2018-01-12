@@ -21,6 +21,12 @@ class Event
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="eve_title", type="string", length=255)
+     */
+    private $title;
 
     /**
      * @ORM\ManyToOne(targetEntity="Room")
@@ -63,7 +69,29 @@ class Event
     {
         return $this->id;
     }
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Workshop
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
 
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
     /**
      * Set rooOid
      *
@@ -181,6 +209,10 @@ class Event
     public function getIsReturned()
     {
         return $this->isReturned;
+    }
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 }
 
