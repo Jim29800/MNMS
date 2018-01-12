@@ -26,4 +26,14 @@ class RoomRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
+
+        public function findLastRoom()
+    {
+        $qb = $this->createQueryBuilder('tc');
+        $qb->setMaxResults(1);
+        $qb->orderBy('tc.id', 'DESC');
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
 }

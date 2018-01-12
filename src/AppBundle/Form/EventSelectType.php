@@ -21,11 +21,14 @@ class EventSelectType extends AbstractType
             'rooOid',
             EntityType::class,
             [
+                'label' => "Sélection de la salle : ",
+                'placeholder' => 'Sélectionner la salle',
+                'attr' => [
+                    'class' => 'form-control form-bottom-margin',
+                ],
                 'class' => 'AppBundle:Room',
                 'query_builder' => function (RoomRepository $repository) use ($user) {
                     $qb = $repository->createQueryBuilder('r');
-                    var_dump($user);
-
                     return $qb
                         ->from('AppBundle:Event', 'e')
                         ->leftJoin('e.worOid', 'w')

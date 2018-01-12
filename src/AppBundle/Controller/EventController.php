@@ -9,13 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\Choice;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use AppBundle\Form\EventType;
 use Doctrine\ORM\EntityRepository;
-use AppBundle\Repository\RoomRepository;
-use AppBundle\Repository\EventRepository;
+
 
 
 /**
@@ -25,52 +21,8 @@ use AppBundle\Repository\EventRepository;
  */
 class EventController extends Controller
 {
-    /**
-     * Lists all event entities.
-     *
-     * @Route("/", name="workshop_event_index")
-     * @Method("GET")
-     */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
 
-        $events = $em->getRepository('AppBundle:Event')->findAll();
 
-        return $this->render('event/index.html.twig', array(
-            'events' => $events,
-        ));
-    }
-    /**
-     * workshop_event_select : selecteur des rooms lier à l'utilisateur
-     *
-     * @Route("/{id}/room/select", name="workshop_event_select")
-     * @Method({"GET", "POST"})
-     */
-    public function selectAction(Request $request, Event $event)
-    {
-
-        $data = $request->getContent();
-        $em = $this->getDoctrine()->getManager();
-
-        $user = $this->getUser();
-        $rooms = $em->getRepository('AppBundle:Room')->findAllRoom($this->getUser());
-
-        $form = $this->createForm('AppBundle\Form\EventSelectType',$event, ["user" => $user]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('workshop_event_select', array('id' => $event->getId()));
-        }
-
-        return $this->render('event/select.html.twig', array(
-            'rooms' => $rooms,
-            'form' => $form->createView(),
-            
-        ));
-    }
     //Creation d'un evenement avec redirection pout ajout de salle : workshop_event_select
     /**
      * Creates a new event entity.
@@ -99,7 +51,115 @@ class EventController extends Controller
             'form' => $form->createView(),
         ));
     }
+    /**
+     * workshop_event_select : selecteur des rooms lier à l'utilisateur
+     *
+     * @Route("/{id}/room/select", name="workshop_event_select")
+     * @Method({"GET", "POST"})
+     */
+    public function selectAction(Request $request, Event $event)
+    {
 
+        $data = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+
+        $form = $this->createForm('AppBundle\Form\EventSelectType', $event, ["user" => $user]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('workshop_event_contributor', array('id' => $event->getId()));
+        }
+
+        return $this->render('event/select.html.twig', array(
+            'event' => $event,
+            'form' => $form->createView(),
+
+        ));
+    }
+
+
+    /**
+     * workshop_event_room_new : selecteur des rooms lier à l'utilisateur
+     *
+     * @Route("/{id}/room/new", name="workshop_event_room_new")
+     * @Method({"GET", "POST"})
+     */
+    public function roomNewAction(Request $request, Event $event)
+    {
+        $room = new Room();
+        $form = $this->createForm('AppBundle\Form\RoomType', $room);
+        $form->handleRequest($request);
+
+        $data = $request->getContent();
+        $em = $this->getDoctrine()->getManager();
+
+        $user = $this->getUser();
+
+        $form = $this->createForm('AppBundle\Form\RoomType', $room);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //room
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($room);
+            $em->flush();
+            //event
+
+
+            $last_room = $this->getDoctrine()->getRepository(Room::class)->findLastRoom();
+            $event->setRooOid($last_room);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('workshop_event_contributor', array('id' => $event->getId()));
+        }
+
+        return $this->render('room/new.html.twig', array(
+            'form' => $form->createView(),
+            'room' => $room,
+        ));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Lists all event entities.
+     *
+     * @Route("/", name="workshop_event_index")
+     * @Method("GET")
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $events = $em->getRepository('AppBundle:Event')->findAll();
+
+        return $this->render('event/index.html.twig', array(
+            'events' => $events,
+        ));
+    }
     /**
      * Finds and displays a event entity.
      *
