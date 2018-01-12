@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RoomType extends AbstractType
+class RoomEditType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -120,34 +120,9 @@ class RoomType extends AbstractType
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'Paperboard',
             ]
-        ))
-
-        ->add('NeedPlace', null, array(
-            'label' => 'NeedPlace',
-            'attr' => [
-                'class' => 'form-control form-bottom-margin',
-                'placeholder' => 'J\'ai besoin d\'une salle',
-            ]
-        ))
-
-        ->add('PlaceNumberPeople', null, array(
-            'label' => 'PlaceNumberPeople',
-            'attr' => [
-                'class' => 'form-control form-bottom-margin',
-                'placeholder' => 'Nombre de personnes',
-            ]
-        ))
-
-        ->add('PlaceArea', null, array(
-            'label' => 'PlaceArea',
-            'attr' => [
-                'class' => 'form-control form-bottom-margin',
-                'placeholder' => 'Nombre de m²',
-            ]
-            ));
+        ));
       
     }/**
-
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)

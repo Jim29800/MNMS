@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\ORM\EntityRepository;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -12,6 +13,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class RoomRepository extends \Doctrine\ORM\EntityRepository
 {
+
     public function findAllRoom($id)
     {
         return $this->getEntityManager()
