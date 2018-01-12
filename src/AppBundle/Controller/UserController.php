@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -32,7 +33,7 @@ class UserController extends Controller
     }
 
     /**
-     * Creates a new user entity.
+     * Creates a new participant.
      *
      * @Route("/new", name="user_new")
      * @Method({"GET", "POST"})
@@ -40,22 +41,42 @@ class UserController extends Controller
     public function newAction(Request $request)
     {
         $user = new User();
-        $form = $this->createForm('AppBundle\Form\UserType', $user);
+//--on appelle le formulaire pour participant
+        $form = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+          
             $em = $this->getDoctrine()->getManager();
+ //-----on crée une variable $lastUserId qui contient un id unique pour chaque participant en concaténant l'id du dernier utilisateur connecté+1 . le prénom  . le nom  
+            $lastUserId = $em->getRepository(User::class)->findLastUser()->getId();
+            $lastUserId ++;
+            $firstName = $user->getFirstname();
+            $lastName = $user->getLastname();
+
+            $userName = $lastUserId . $firstName . $lastName;
+
+//------on set l'objet LeaderOid avec l'objet user connecté 
+            $user->setLeaderOid($this->getUser());
+
+//------on set le password avec un mot de passe généré aléatoirement
+            $user->setPassword( "uniqid(): %s\r\n", uniqid());
+            $user->setUsername($userName);
+
+//----- on persist dans la base
             $em->persist($user);
             $em->flush();
-
+//------quand on crée un participant, on est redirigé vers le détail du participant
             return $this->redirectToRoute('user_show', array('id' => $user->getId()));
         }
-
+//------le controller appelle la vue correspondante
         return $this->render('user/new.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
         ));
     }
+
+
 
     /**
      * Finds and displays a user entity.
