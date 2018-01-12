@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * RoomRepository
@@ -10,4 +11,19 @@ namespace AppBundle\Repository;
  */
 class RoomRepository extends \Doctrine\ORM\EntityRepository
 {
+
+public function findAllRoom($id)
+{
+
+  return $this->getEntityManager() 
+    ->createQuery( 'SELECT r.Name, r.id 
+    FROM AppBundle:Room r 
+    INNER JOIN AppBundle:Event e 
+    WITH r.id = e.rooOid 
+    INNER JOIN AppBundle:Workshop w 
+    WITH e.worOid = w.id 
+    WHERE w.usrOid = :id' ) 
+    ->setParameter('id', $id) 
+    ->getResult(); 
+}
 }

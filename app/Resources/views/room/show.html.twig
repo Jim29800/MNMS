@@ -1,92 +1,103 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Room</h1>
+    <div class="col-xs-12 col-md-offset-3 col-md-6 text-center">
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ room.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ room.Name }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ room.Address }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ room.City }}</td>
-            </tr>
-            <tr>
-                <th>Zipcode</th>
-                <td>{{ room.Zipcode }}</td>
-            </tr>
-            <tr>
-                <th>Country</th>
-                <td>{{ room.Country }}</td>
-            </tr>
-            <tr>
-                <th>Area</th>
-                <td>{{ room.Area }}</td>
-            </tr>
-            <tr>
-                <th>Maxpeople</th>
-                <td>{{ room.MaxPeople }}</td>
-            </tr>
-            <tr>
-                <th>Islet</th>
-                <td>{% if room.Islet %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Projection</th>
-                <td>{% if room.Projection %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Exit</th>
-                <td>{% if room.Exit %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Wall</th>
-                <td>{% if room.Wall %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Paperboard</th>
-                <td>{% if room.Paperboard %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Needplace</th>
-                <td>{% if room.NeedPlace %}Yes{% else %}No{% endif %}</td>
-            </tr>
-            <tr>
-                <th>Placenumberpeople</th>
-                <td>{{ room.PlaceNumberPeople }}</td>
-            </tr>
-            <tr>
-                <th>Placenumberislet</th>
-                <td>{{ room.PlaceNumberIslet }}</td>
-            </tr>
-            <tr>
-                <th>Placearea</th>
-                <td>{{ room.PlaceArea }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <h1>Room</h1>
 
-    <ul>
-        <li>
-            <a href="{{ path('workshop_room_index') }}">Back to the list</a>
-        </li>
-        <li>
-            <a href="{{ path('workshop_room_edit', { 'id': room.id }) }}">Edit</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ room.id }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ room.Name }}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>{{ room.Address }}</td>
+                </tr>
+                <tr>
+                    <th>City</th>
+                    <td>{{ room.City }}</td>
+                </tr>
+                <tr>
+                    <th>Zipcode</th>
+                    <td>{{ room.Zipcode }}</td>
+                </tr>
+                <tr>
+                    <th>Country</th>
+                    <td>{{ room.Country }}</td>
+                </tr>
+                <tr>
+                    <th>Area</th>
+                    <td>{{ room.Area }}</td>
+                </tr>
+                <tr>
+                    <th>Maxpeople</th>
+                    <td>{{ room.MaxPeople }}</td>
+                </tr>
+                <tr>
+                    <th>Islet</th>
+                    <td>
+                        {% if room.Islet %}Yes{% else %}No{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Projection</th>
+                    <td>
+                        {% if room.Projection %}Yes{% else %}No{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Exit</th>
+                    <td>
+                        {% if room.Exit %}Yes{% else %}No{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Wall</th>
+                    <td>
+                        {% if room.Wall %}Yes{% else %}No{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Paperboard</th>
+                    <td>
+                        {% if room.Paperboard %}Yes{% else %}No{% endif %}
+                    </td>
+                </tr>
+                {# <tr>
+                    <th>Needplace</th>
+                    <td>
+                        {% if room.NeedPlace %}Yes{% else %}No{% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Placenumberpeople</th>
+                    <td>{{ room.PlaceNumberPeople }}</td>
+                </tr>
+                <tr>
+                    <th>Placenumberislet</th>
+                    <td>{{ room.PlaceNumberIslet }}</td>
+                </tr>
+                <tr>
+                    <th>Placearea</th>
+                    <td>{{ room.PlaceArea }}</td>
+                </tr> #}
+            </tbody>
+        </table>
+
+        <ul class="list-unstyled col-">
+            <li "form-bottom-margin">
+                <a class="btn btn-default btn-block" href="{{ path('workshop_room_index') }}">Back to the list</a>
+            </li><br/>
+            <li "form-bottom-margin">
+                <a class="btn btn-default btn-block" href="{{ path('workshop_room_edit', { 'id': room.id }) }}">Edit</a>
+            </li><br/>
+            
+        </ul>
+    </div>
 {% endblock %}

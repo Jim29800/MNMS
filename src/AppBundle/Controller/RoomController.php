@@ -5,27 +5,29 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Room;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Room controller.
  *
- * @Route("workshop/room")
+ * @Route("/room")
  */
 class RoomController extends Controller
 {
     /**
-     * Lists all room entities.
+     * Liste des rooms en fonction de l'id de l'utilisateur.
      *
      * @Route("/", name="workshop_room_index")
      * @Method("GET")
      */
     public function indexAction()
     {
+        $id = $this->getUser();
         $em = $this->getDoctrine()->getManager();
 
-        $rooms = $em->getRepository('AppBundle:Room')->findAll();
-
+        $rooms = $em->getRepository('AppBundle:Room')->findAllRoom($id);
+        
         return $this->render('room/index.html.twig', array(
             'rooms' => $rooms,
         ));
@@ -39,6 +41,7 @@ class RoomController extends Controller
      */
     public function newAction(Request $request)
     {
+        
         $room = new Room();
         $form = $this->createForm('AppBundle\Form\RoomType', $room);
         $form->handleRequest($request);
@@ -82,7 +85,7 @@ class RoomController extends Controller
     public function editAction(Request $request, Room $room)
     {
         $deleteForm = $this->createDeleteForm($room);
-        $editForm = $this->createForm('AppBundle\Form\RoomType', $room);
+        $editForm = $this->createForm('AppBundle\Form\RoomEditType', $room);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
