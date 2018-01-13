@@ -62,6 +62,8 @@ class UserController extends Controller
 //------on set le password avec un mot de passe généré aléatoirement
             $user->setPassword( "uniqid(): %s\r\n", uniqid());
             $user->setUsername($userName);
+  
+            
 
 //----- on persist dans la base
             $em->persist($user);
@@ -73,6 +75,26 @@ class UserController extends Controller
         return $this->render('user/new.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
+        ));
+    }
+
+
+/**
+     * Liste tous les participants en fonction du user qui les a créés et par ordre alphabétique
+     *
+     * @Route("/list", name="user_list")
+     * @Method("GET")
+     */
+    public function listAction()
+    {
+
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('AppBundle:User')
+        ->findBy(array("leaderOid" => $user->getId()), array('lastname' => 'ASC'));
+
+        return $this->render('user/list.html.twig', array(
+            'users' => $users,
         ));
     }
 

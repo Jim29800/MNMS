@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Répertoire</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Fonction</th>
+                <th>E-mail</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>
+                        <a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a>
+                    </td>
+                    <td>{{ user.firstname }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.function }}</td>
+                    <td>{{ user.email }}</td>
+
+                    <td>
+
+                        <ul class="list-unstyled list-inline">
+                            <li "form-bottom-margin">
+                                <a class="btn btn-default btn-block form-bottom-margin" href="{{ path('user_show', { 'id': user.id }) }}">Afficher</a>
+                            </li>
+                            <li class="form-bottom-margin">
+                                <a class="btn btn-default btn-block " href="{{ path('user_edit', { 'id': user.id }) }}">Modifier</a>
+                            </li>
+                        </ul>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <ul class="list-unstyled">
+        <li>
+            <a class="btn btn-default btn-block form-bottom-margin" href="{{ path('user_new') }}">Créer un nouveau participant</a>
+        </li>
+    </ul>
+{% endblock %}
