@@ -7,9 +7,9 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    parameters:
+    # ==============================================================================
     app.path.user_avatars: /uploads/avatar/users
-
+    # ==============================================================================
 
 framework:
     #esi: ~
@@ -152,7 +152,7 @@ easy_admin:
                     - firstName
                     - lastName
                     - email
-                    - avatar
+                    - { property: 'avatarFile', type: 'vich_image' }
                     - password
                     - enabled
             list:
@@ -161,14 +161,17 @@ easy_admin:
                     - firstName
                     - lastName
                     - email
-                    - avatar
+                    - { property: 'avatar', type: 'image', base_path: '%app.path.user_avatars%' }
                     - enabled
-                    # - { property: 'image', type: 'image', base_path: '%app.path.article_images%' }
-            # show:
-            #     fields:
-            #         - { property: 'image', type: 'image', base_path: '%app.path.article_images%' } 
+            show:
+                fields:
+                    - { property: 'avatar', type: 'image', base_path: '%app.path.user_avatars%' } 
+
+# ==================================================================================
 vich_uploader:
+    db_driver: orm
     mappings:
-        user_avatar:
-            uri_prefix:         '%app.path.user_avatar%'
+        user_avatars:
+            uri_prefix:         '%app.path.user_avatars%'
             upload_destination: '%kernel.root_dir%/../web/uploads/avatar/users'
+# ==================================================================================
