@@ -1,120 +1,98 @@
-<section class="container-fluid">
-
-    <nav class="navbar navbar-default ">
-
-        <!-- bouton et titre navbar -->
-        <!-- <ul class="list-unstyled"> -->
-        <ul class=" nav navbar-nav list-unstyled list-inline">
-            <li>
-                <button type="submit" class="btn btn-primary" id="menu">Menu</button>
-            </li>
-            <li class="hidden-xs">
-
-                <p id="titre">MyNeedMySolution</p>
-
-            </li>
-        </ul>
-
-        <!-- icones à droite de la navbar -->
-        <ul class="nav navbar-nav navbar-right">
-
-            {% if app.user %}
-<!-- images pour mes ateliers -->
-<li class="hidden-xs">
-    <div class="image_navbar">
-        <a class="" href="/workshop">
-            <i class="glyphicon glyphicon-inbox icon-navbar "></i>
-        </a>
-    </div>
-</li>
-
-<!-- image pour mon profil -->
-<li class="hidden-xs">
-    <div class="image_navbar">
-        <a class="menu-profil" href="/profile">
-            <i class="glyphicon glyphicon-user icon-navbar "></i>
-        </a>
-    </div>
-</li>
-
-<!-- dropdown des paramètres -->
-<li>
-    <div class="dropdown ">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <i class="glyphicon glyphicon-cog icon-navbar icon-dropdown"></i>
-
-            <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-            <li>
-                <a href="#">choisir une image</a>
-            </li>
-            <li>
-                <a href="#">créer des collaborateurs</a>
-            </li>
-            <li>
-                <a href="#">ce que je souhaite partager avec MNMS ou pas</a>
-            </li>
-            <li role="separator" class="divider"></li>
-            <li>
-                <a href="#">adresse de facturation</a>
-            </li>
-            <li>
-                <a href="#">moyen de paiement</a>
-            </li>
-        </ul>
-    </div>
-</li>
-                <li>
-                    <a href="/logout">
-                        <i class="glyphicon glyphicon-log-out icon-navbar icon-logout"></i>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="visible-xs">
+                <a class="navbar-brand" href="#">MNMS</a>
+            </div>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                         <img class="logo-navbar" src="/images/mnms-logo.png" alt="logo mnms"> 
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/profil">Profil</a>
+                        </li>
+                        <li>
+                            <a href="/user">Répertoire</a>
+                        </li>
+                        <li>
+                            <a href="/room">Lieux</a>
+                        </li>
+                        <li>
+                            <a href="/workshop">Mes ateliers</a>
+                        </li>
+                        <li>
+                            <a href="#">brouillons</a>
+                        </li>
+                        <li>
+                            <a href="#">Mes commandes</a>
+                        </li>
+                        <li>
+                            <a href="#">Paramètres</a>
+                        </li>
+                        <li>
+                            <a href="#">Outils</a>
+                        </li>
+                        <li>
+                            <a href="#">Ma box</a>
+                        </li>
+                        <li>
+                            <a href="#">Tuto</a>
+                        </li>
+                    </ul>
+                <li >
+                    <a class="navbar-brand" href="#">My Need My Solution</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- images pour mes ateliers -->
+                <li class="hidden-xs">
+                    <a class="" href="/workshop">
+                        <i class="glyphicon glyphicon-inbox icon-navbar "></i>
                     </a>
                 </li>
-            {% else %}
-                <li>
-                    <a href="/login">
-                        <i class="glyphicon glyphicon-log-in icon-navbar icon-logout"></i>
+
+                <!-- image pour mon profil -->
+                <li class="hidden-xs">
+                    <a class="menu-profil" href="/profile">
+                        <i class="glyphicon glyphicon-user icon-navbar "></i>
                     </a>
                 </li>
-            {% endif %}
-
-        </ul>
-
-        <!-- Sidebar -->
-    </nav>
-    <div id="sidebar" style="display:none">
-        <ul class="list-unstyled">
-
-            <li>
-                <a href="/profil">Profil</a>
-            </li>
-            <li>
-                <a href="/user">Répertoire</a>
-            </li>
-            <li>
-                <a href="/room">Lieux</a>
-            </li>
-            <li>
-                <a href="/workshop">Mes ateliers</a>
-            </li>
-            <li>
-                <a href="#">brouillons</a>
-            </li>
-            <li>
-                <a href="#">Mes commandes</a>
-            </li>
-            <li>
-                <a href="#">Paramètres</a>
-            </li>
-            <li>
-                <a href="#">Outils</a>
-            </li>
-            <li>
-                <a href="#">Ma box</a>
-            </li>
-            <li>
-                <a href="#">Tuto</a>
-            </li>
-        </ul>
-
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="glyphicon glyphicon-cog icon-navbar icon-dropdown"></i>
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#">choisir une image</a>
+                        </li>
+                        <li>
+                            <a href="#">créer des collaborateurs</a>
+                        </li>
+                        <li>
+                            <a href="#">ce que je souhaite partager avec MNMS ou pas</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                            <a href="#">adresse de facturation</a>
+                        </li>
+                        <li>
+                            <a href="#">moyen de paiement</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
     </div>
-</section>
+</nav>
