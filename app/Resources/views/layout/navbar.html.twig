@@ -50,11 +50,12 @@
                             <a href="#">Tuto</a>
                         </li>
                     </ul>
-                <li >
+                <li class="hidden-xs">
                     <a class="navbar-brand" href="#">My Need My Solution</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+             {% if app.user %}
                 <!-- images pour mes ateliers -->
                 <li class="hidden-xs">
                     <a class="" href="/workshop">
@@ -89,6 +90,18 @@
                         <li>
                             <a href="#">moyen de paiement</a>
                         </li>
+                                        <li>
+                    <a href="/logout">
+                        <i class="glyphicon glyphicon-log-out icon-navbar icon-logout"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="/login">
+                        <i class="glyphicon glyphicon-log-in icon-navbar icon-logout"></i>
+                    </a>
+                </li>
+            {% endif %}
                     </ul>
                 </li>
             </ul>

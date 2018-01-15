@@ -7,6 +7,9 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    # ==============================================================================
+    app.path.user_avatars: /uploads/avatar/users
+    # ==============================================================================
 
 framework:
     #esi: ~
@@ -144,4 +147,31 @@ easy_admin:
         Utilisateur:
             class: AppBundle\Entity\User
             form:
-                fields: ['firstName', 'lastName', 'email', 'avatar', 'roles']
+                fields:
+                    - username
+                    - firstName
+                    - lastName
+                    - email
+                    - { property: 'avatarFile', type: 'vich_image' }
+                    - password
+                    - enabled
+            list:
+                fields:
+                    - username
+                    - firstName
+                    - lastName
+                    - email
+                    - { property: 'avatar', type: 'image', base_path: '%app.path.user_avatars%' }
+                    - enabled
+            show:
+                fields:
+                    - { property: 'avatar', type: 'image', base_path: '%app.path.user_avatars%' } 
+
+# ==================================================================================
+vich_uploader:
+    db_driver: orm
+    mappings:
+        user_avatars:
+            uri_prefix:         '%app.path.user_avatars%'
+            upload_destination: '%kernel.root_dir%/../web/uploads/avatar/users'
+# ==================================================================================
