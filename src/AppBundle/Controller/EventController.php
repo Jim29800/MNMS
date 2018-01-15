@@ -60,7 +60,7 @@ class EventController extends Controller
     public function selectAction(Request $request, Event $event)
     {
 
-        $data = $request->getContent();
+        //$data = $request->getContent();
         $em = $this->getDoctrine()->getManager();
 
         $user = $this->getUser();
@@ -94,7 +94,6 @@ class EventController extends Controller
         $form = $this->createForm('AppBundle\Form\RoomType', $room);
         $form->handleRequest($request);
 
-        $data = $request->getContent();
         $em = $this->getDoctrine()->getManager();
 
         $user = $this->getUser();
@@ -121,8 +120,36 @@ class EventController extends Controller
         return $this->render('room/new.html.twig', array(
             'form' => $form->createView(),
             'room' => $room,
+            'id' => $event->getId(),
         ));
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -33,35 +33,9 @@ class RoomController extends Controller
         ));
     }
 
-    /**
-     * Creates a new room entity.
-     *
-     * @Route("/new", name="workshop_room_new")
-     * @Method({"GET", "POST"})
-     */
-    public function newAction(Request $request)
-    {
-        
-        $room = new Room();
-        $form = $this->createForm('AppBundle\Form\RoomType', $room);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($room);
-            $em->flush();
-
-            return $this->redirectToRoute('workshop_room_show', array('id' => $room->getId()));
-        }
-
-        return $this->render('room/new.html.twig', array(
-            'room' => $room,
-            'form' => $form->createView(),
-        ));
-    }
 
     /**
-     * Finds and displays a room entity.
+     * Affiche les details d'une salle.
      *
      * @Route("/{id}", name="workshop_room_show")
      * @Method("GET")
@@ -77,7 +51,7 @@ class RoomController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing room entity.
+     * Edite une salle.
      *
      * @Route("/{id}/edit", name="workshop_room_edit")
      * @Method({"GET", "POST"})

@@ -124,5 +124,10 @@ class EventContributor
     {
         return $this->neededNumber;
     }
+    
+    public function __toString()
+    {
+        return $this->getConOid();
+    }
 }
 
