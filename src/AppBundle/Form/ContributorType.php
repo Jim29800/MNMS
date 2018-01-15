@@ -13,7 +13,19 @@ class ContributorType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name')->add('maxNumber')->add('isMnms');
+        $builder->add('name',
+                null,
+            [
+                'label' => "Intervenant",
+                'attr' => [
+                    'placeholder' => "Intervenant",
+                    'class' => 'form-control form-bottom-margin',
+                ],
+            ]
+        );
+        
+        //->add('maxNumber')
+        //->add('isMnms')
     }/**
      * {@inheritdoc}
      */

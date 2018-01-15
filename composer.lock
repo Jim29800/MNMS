@@ -1190,7 +1190,7 @@
                 "backend",
                 "generator"
             ],
-            "time": "2018-01-14 11:50:22"
+            "time": "2018-01-14T11:50:22+00:00"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -2031,7 +2031,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2018-01-11 05:54:03"
+            "time": "2018-01-11T05:54:03+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

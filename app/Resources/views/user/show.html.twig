@@ -20,8 +20,13 @@
                 <td>{{ user.lastname }}</td>
             </tr>
             <tr>
+
                 <th>E-mail</th>
                 <td>{{ user.email }}</td>
+
+                <th>Avatar</th>
+                <td><img src="{{ asset('uploads/user/avatars/' ~ user.avatar) }}" alt="avatar"></td>
+
             </tr>
             <tr>
                 <th>Fonction</th>

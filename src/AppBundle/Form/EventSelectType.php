@@ -35,7 +35,7 @@ class EventSelectType extends AbstractType
                         ->where('w.usrOid = :user')
                         ->andWhere('e.rooOid = r.id')
                         ->andWhere('w.id = e.worOid')
-                        ->setParameter('user', $user->getId());
+                        ->setParameter('user', $user);
                 }
             ]
         );
