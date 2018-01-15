@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * User controller.
@@ -59,7 +60,7 @@ class UserController extends Controller
             $user->setUsername($userName);
 
 //------on set l'avatar avec l'image de l'utilisateur connecté
-            $user->setAvatar($this->getUser());
+            // $user->setAvatar($this->getUser());
   
             
 
@@ -98,18 +99,25 @@ class UserController extends Controller
 
 
     /**
-     * Finds and displays a user entity.
+     * Affiche le détail du participant si le user connecté l'a créé
      *
      * @Route("/{id}", name="user_show")
      * @Method("GET")
      */
     public function showAction(User $user)
     {
-        $deleteForm = $this->createDeleteForm($user);
-        return $this->render('user/show.html.twig', array(
-            'user' => $user,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        
+        $userConnected = $this->getUser();
+        $userParticipant = $user->getLeaderOid();
+        if($userConnected === $userParticipant) {
+            $deleteForm = $this->createDeleteForm($user);
+            return $this->render('user/show.html.twig', array(
+                'user' => $user,
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+           return new Response("Accès refusé");
+        }
     }
 
     /**
@@ -172,4 +180,7 @@ class UserController extends Controller
             ->getForm()
         ;
     }
+
+
+    
 }
