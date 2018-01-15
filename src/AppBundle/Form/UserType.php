@@ -28,7 +28,8 @@ class UserType extends AbstractType
             ))
         ->add('avatar', FileType::class, array(
                 'attr' => ['placeholder' => 'Votre image de profil',
-                'class' => 'form-bottom-margin']
+                'class' => 'form-bottom-margin imgInp'
+                ]
     
             ))
         ->add('email', null, array(

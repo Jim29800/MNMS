@@ -4,11 +4,15 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 /**
  * User
  *
  * @ORM\Table(name="usr_user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @Vich\Uploadable
  */
 class User extends BaseUser
 {
@@ -35,12 +39,28 @@ class User extends BaseUser
      */
     private $lastname;
 
+// ================================================================================== 
+
     /**
      * @var string
      *
-     * @ORM\Column(name="usr_avatar", type="text", nullable=true)
+     * @ORM\Column(name="usr_avatar", type="string", length=255)
      */
     private $avatar;
+
+    /**
+     * @Vich\UploadableField(mapping="user_avatars", fileNameProperty="avatar")
+     * @var File
+     */
+    private $avatarFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+// ==================================================================================
 
     /**
      * @var string
@@ -193,5 +213,22 @@ class User extends BaseUser
     {
         return $this->leaderOid;
     }
+
+// ==================================================================================
+    public function setAvatarFile(File $avatar = null)
+    {
+        $this->avatarFile = $avatar;
+
+        if ($avatar) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getAvatarFile()
+    {
+        return $this->avatarFile;
+    }
+
 }
 
