@@ -57,6 +57,9 @@ class UserController extends Controller
 //------on set le password avec un mot de passe généré aléatoirement
             $user->setPassword( "uniqid(): %s\r\n", uniqid());
             $user->setUsername($userName);
+
+//------on set l'avatar avec l'image de l'utilisateur connecté
+            $user->setAvatar($this->getUser());
   
             
 
