@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Contributor controller.
  *
- * @Route("workshop/contributor")
+ * @Route("contributor")
  */
 class ContributorController extends Controller
 {

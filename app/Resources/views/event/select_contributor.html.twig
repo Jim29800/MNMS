@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <a class="btn btn-default btn-block" href="{{ path('workshop_list') }}">Terminer</a>
+
+    <h1>Selectionner l'intervenant à ajouter</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <input type="submit" value="Ajouter l'intervenant"/>
+    {{ form_end(form) }}
+
+    <h2>Ajouer un intervenant à la liste</h2>
+
+    {{ form_start(form2) }}
+    {{ form_widget(form2) }}
+
+    <input type="submit" value="Enregistré le nouvel intervenant"/>
+    {{ form_end(form2) }}
+
+
+    <h2>Liste des intervenants participant</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Intervenant</th>
+                <th>Nombre</th>
+                <th>MNMS</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contributor in contributorList %}
+                <tr>
+                    <td>{{ contributor.conOid.Name }}</td>
+                    <td>{{ contributor.neededNumber }}</td>
+                    <td>
+                        {% if contributor.conOid.isMnms %}Oui{% else %}Non{% endif %}
+                    </td>
+<td>
+<a class="btn btn-default btn-block" href="{{ path('workshop_event_delete_contributor', { 'id': contributor.id }) }}">X</a>
+</td>
+                    
+                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

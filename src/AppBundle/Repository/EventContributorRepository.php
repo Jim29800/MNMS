@@ -10,4 +10,12 @@ namespace AppBundle\Repository;
  */
 class EventContributorRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function deleteContributor($id)
+    {
+        $qb = $this->createQueryBuilder();
+        $qb->delete('AppBundle:EventContributor', 'ec')
+        ->where('ec.id = :id')
+        ->setParameter('id', $id);
+        //DELETE FROM `nec_nn_eve_con` WHERE `nec_nn_eve_con` . `nec_oid` = 5
+    }
 }

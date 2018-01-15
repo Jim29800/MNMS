@@ -124,5 +124,9 @@ class Contributor
     {
         return $this->isMnms;
     }
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
 
