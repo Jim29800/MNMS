@@ -107,9 +107,9 @@ class UserController extends Controller
     public function showAction(User $user)
     {
         
-        $userConnected = $this->getUser();
-        $userParticipant = $user->getLeaderOid();
-        if($userConnected === $userParticipant) {
+        
+        if($this->checkUserLegacy($user)) {
+        
             $deleteForm = $this->createDeleteForm($user);
             return $this->render('user/show.html.twig', array(
                 'user' => $user,
@@ -128,21 +128,27 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
-        $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
-        $editForm->handleRequest($request);
+        if($this->checkUserLegacy($user)) {
+        
+            $deleteForm = $this->createDeleteForm($user);
+            $editForm = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
+            $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
+                return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
+            }
+
+            return $this->render('user/edit.html.twig', array(
+                'user' => $user,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+           return new Response("Accès refusé");
+            
         }
-
-        return $this->render('user/edit.html.twig', array(
-            'user' => $user,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -181,6 +187,14 @@ class UserController extends Controller
         ;
     }
 
-
+    public function checkUserLegacy($user) {
+        $userConnected = $this->getUser();
+        $userParticipant = $user->getLeaderOid();
+        if($userConnected === $userParticipant) {
+            return true;
+        } else {
+           return false;
+        }
+    }
     
 }
