@@ -120,8 +120,8 @@ class EventController extends Controller
 
         return $this->render('room/new.html.twig', array(
             'form' => $form->createView(),
-            'room' => $room,
-        ));
+            'room' => $room, $event->getId()));
+        
     }
 
 
