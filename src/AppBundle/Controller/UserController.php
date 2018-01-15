@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * User controller.
@@ -16,20 +17,15 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * Lists all user entities.
+     * Affiche 2 boutons pour créer ou accéder à la liste des participants
      *
      * @Route("/", name="user_index")
      * @Method("GET")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository('AppBundle:User')->findAll();
-
-        return $this->render('user/index.html.twig', array(
-            'users' => $users,
-        ));
+       
+        return $this->render('user/index.html.twig');
     }
 
     /**
@@ -62,6 +58,9 @@ class UserController extends Controller
 //------on set le password avec un mot de passe généré aléatoirement
             $user->setPassword( "uniqid(): %s\r\n", uniqid());
             $user->setUsername($userName);
+
+//------on set l'avatar avec l'image de l'utilisateur connecté
+            // $user->setAvatar($this->getUser());
   
             
 
@@ -100,18 +99,25 @@ class UserController extends Controller
 
 
     /**
-     * Finds and displays a user entity.
+     * Affiche le détail du participant si le user connecté l'a créé
      *
      * @Route("/{id}", name="user_show")
      * @Method("GET")
      */
     public function showAction(User $user)
     {
-        $deleteForm = $this->createDeleteForm($user);
-        return $this->render('user/show.html.twig', array(
-            'user' => $user,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        
+        
+        if($this->checkUserLegacy($user)) {
+        
+            $deleteForm = $this->createDeleteForm($user);
+            return $this->render('user/show.html.twig', array(
+                'user' => $user,
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+           return new Response("Accès refusé");
+        }
     }
 
     /**
@@ -122,21 +128,27 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
-        $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('AppBundle\Form\UserType', $user);
-        $editForm->handleRequest($request);
+        if($this->checkUserLegacy($user)) {
+        
+            $deleteForm = $this->createDeleteForm($user);
+            $editForm = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
+            $editForm->handleRequest($request);
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
+                return $this->redirectToRoute('user_edit', array('id' => $user->getId()));
+            }
+
+            return $this->render('user/edit.html.twig', array(
+                'user' => $user,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+           return new Response("Accès refusé");
+            
         }
-
-        return $this->render('user/edit.html.twig', array(
-            'user' => $user,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -174,4 +186,15 @@ class UserController extends Controller
             ->getForm()
         ;
     }
+
+    public function checkUserLegacy($user) {
+        $userConnected = $this->getUser();
+        $userParticipant = $user->getLeaderOid();
+        if($userConnected === $userParticipant) {
+            return true;
+        } else {
+           return false;
+        }
+    }
+    
 }

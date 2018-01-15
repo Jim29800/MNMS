@@ -21,17 +21,20 @@ class UserRepertoireType extends AbstractType
     {
         
         $builder->add('firstname', null, array(
+            'label' =>"Prénom",
             'attr' => ['class'=> 'form-control form-bottom-margin',
                         'placeholder' => 'Prénom' ]
         ))
         ->add('lastname', null, array(
+                'label' =>"Nom",
                 'attr' => ['class' => 'form-control form-bottom-margin',
                 'placeholder' => ' Nom ']
             ))
         
         ->add('email', null, array(
+            'label' =>"E-mail",
             'attr' => ['class' => 'form-control form-bottom-margin',
-                    'placeholder' => 'Adresse email']
+                    'placeholder' => 'E-mail']
             ))
         
         

@@ -22,7 +22,7 @@ class RoomType extends AbstractType
 
         ))
         ->add('Address', null, array(
-            'label' => 'Adress',
+            'label' => 'Adresse',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'Adresse',
@@ -30,7 +30,7 @@ class RoomType extends AbstractType
         ))
 
         ->add('City', null, array(
-            'label' => 'City',
+            'label' => 'Ville',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'Ville',
@@ -38,23 +38,23 @@ class RoomType extends AbstractType
         ))
 
         ->add('Zipcode', null, array(
-            'label' => 'Zipcode',
+            'label' => 'Code Postal',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
-                'placeholder' => 'Zipcode',
+                'placeholder' => 'Code Postal',
             ]
         ))
 
-        ->add('Zipcode', null, array(
-            'label' => 'Zipcode',
-            'attr' => [
-                'class' => 'form-control form-bottom-margin',
-                'placeholder' => 'Code postal',
-            ]
-        ))
+        // ->add('Zipcode', null, array(
+        //     'label' => 'Zipcode',
+        //     'attr' => [
+        //         'class' => 'form-control form-bottom-margin',
+        //         'placeholder' => 'Code postal',
+        //     ]
+        // ))
 
         ->add('Country', null, array(
-            'label' => 'Country',
+            'label' => 'Pays',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'Pays',
@@ -62,10 +62,10 @@ class RoomType extends AbstractType
         ))
 
         ->add('Area', null, array(
-            'label' => 'Area',
+            'label' => 'Nombre de m²',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
-                'placeholder' => 'Nombre de mètres carrés',
+                'placeholder' => 'Nombre de m²',
             ]
         ))
 // add-on pour indiquer metre carré
@@ -75,7 +75,7 @@ class RoomType extends AbstractType
 // </div>
 
         ->add('MaxPeople', null, array(
-            'label' => 'MaxPeople',
+            'label' => 'Nombre de personnes',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'Nombre de personnes',
@@ -83,10 +83,10 @@ class RoomType extends AbstractType
         ))
 
         ->add('Islet', null, array(
-            'label' => 'Islet',
+            'label' => 'Ilôts',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
-                'placeholder' => 'Ilots',
+                'placeholder' => 'Ilôts',
             ]
         ))
 
@@ -99,7 +99,7 @@ class RoomType extends AbstractType
         ))
 
         ->add('Exit', null, array(
-            'label' => 'Exit',
+            'label' => 'Sorties',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'Sorties',
@@ -107,7 +107,7 @@ class RoomType extends AbstractType
         ))
 
         ->add('Wall', null, array(
-            'label' => 'Wall',
+            'label' => 'Murs',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'Murs',
@@ -123,7 +123,7 @@ class RoomType extends AbstractType
         ))
 
         ->add('NeedPlace', null, array(
-            'label' => 'NeedPlace',
+            'label' => 'J\'ai besoin d\'une salle',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'J\'ai besoin d\'une salle',
@@ -131,7 +131,7 @@ class RoomType extends AbstractType
         ))
 
         ->add('PlaceNumberPeople', null, array(
-            'label' => 'PlaceNumberPeople',
+            'label' => 'Nombre de personnes',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'Nombre de personnes',
@@ -139,7 +139,7 @@ class RoomType extends AbstractType
         ))
 
         ->add('PlaceArea', null, array(
-            'label' => 'PlaceArea',
+            'label' => 'Nombre de m²',
             'attr' => [
                 'class' => 'form-control form-bottom-margin',
                 'placeholder' => 'Nombre de m²',

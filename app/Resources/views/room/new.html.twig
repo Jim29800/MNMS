@@ -3,7 +3,7 @@
 {% block body %}
     <div class="col-xs-12 col-md-offset-3 col-md-6 text-center">
 
-        <h1>Room creation</h1>
+        <h1>Nouvelle salle</h1>
 
         {{ form_start(form) }}
         {{ form_widget(form) }}
@@ -12,7 +12,7 @@
         {{ form_end(form) }}
         <br/>
 
-        <a class="btn btn-default btn-block" href=" {{ path('workshop_room_index') }} ">Retour à mes salles</a>
+<a class="btn btn-default btn-block" href=" {{ path('workshop_event_select', { 'id': id }) }} ">Retour au choix de la salle</a>
 
     </div>
 {% endblock %}
