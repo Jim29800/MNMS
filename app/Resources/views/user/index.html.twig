@@ -1,45 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Users list</h1>
+   
 
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Avatar</th>
-                <th>Function</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.avatar }}</td>
-                <td>{{ user.function }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('user_show', { 'id': user.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('user_edit', { 'id': user.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="text-center">
 
-    <ul>
-        <li>
-            <a href="{{ path('user_new') }}">Create a new user</a>
-        </li>
-    </ul>
+    <h1>Participants</h1>
+    <div class="btn-group-vertical btn-group-lg col-sm-offset-3 col-sm-6" role="group" aria-label="Selection">
+        <button id="new" class="btn btn-secondary btn-block">Nouveau participant</button><br/>
+
+        <button id="list" class="btn btn-secondary">Liste des participants</button><br/>
+
+    </div>
+
+</div>
 {% endblock %}
+
+
+{% block javascripts %}
+
+    <script src="../js/user_index.js"></script>
+
+{% endblock %}
+
+
