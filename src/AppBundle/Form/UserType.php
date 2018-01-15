@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 // ...
 
 class UserType extends AbstractType
@@ -21,23 +22,25 @@ class UserType extends AbstractType
         $builder->add('firstname', null, array(
             'attr' => ['class'=> 'form-control form-bottom-margin',
                         'placeholder' => 'Prénom' ]
-        ))
+            ))
         ->add('lastname', null, array(
-                'attr' => ['class' => 'form-control form-bottom-margin',
-                'placeholder' => ' Nom ']
+            'attr' => ['class' => 'form-control form-bottom-margin',
+                        'placeholder' => ' Nom ']
             ))
-        ->add('avatar', FileType::class, array(
-                'attr' => ['placeholder' => 'Votre image de profil',
-                'class' => 'form-bottom-margin imgInp'
-                ]
-    
+// ==================================================================================
+        ->add('avatarFile', VichFileType::class, array(
+            'required' => false,
+            'label' => 'Choisir votre avatar :',
+            'attr' => ['class' => 'form-bottom-margin imgInp',]
             ))
+// ==================================================================================
         ->add('email', null, array(
             'attr' => ['class' => 'form-control form-bottom-margin',
-                    'placeholder' => 'Adresse email']
+                        'placeholder' => 'Adresse email']
             ))
         ->add('username', null, array(
-                'attr' => ['class' => 'form-control form-bottom-margin', 'placeholder' => 'Nom d\'utilisateur']
+            'attr' => ['class' => 'form-control form-bottom-margin',
+                        'placeholder' => 'Nom d\'utilisateur']
             ))
         ->add('plainPassword', RepeatedType::class, array(
             'type' => PasswordType::class,
