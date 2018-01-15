@@ -16,20 +16,15 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * Lists all user entities.
+     * Affiche 2 boutons pour créer ou accéder à la liste des participants
      *
      * @Route("/", name="user_index")
      * @Method("GET")
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $users = $em->getRepository('AppBundle:User')->findAll();
-
-        return $this->render('user/index.html.twig', array(
-            'users' => $users,
-        ));
+       
+        return $this->render('user/index.html.twig');
     }
 
     /**
