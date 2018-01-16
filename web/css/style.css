@@ -14,6 +14,12 @@ GENERIQUE
 .form-bottom-margin{
     margin-bottom: 10px;
 }
+
+.whiteBold {
+    color: white;
+    font-weight: bold;
+}
+
 /*##########################################################################
 login / register
 */
@@ -43,6 +49,16 @@ login / register
         -moz-border-radius: 50%;
         -webkit-border-radius: 50%;
         border-radius: 50%;
+}
+
+.bigHr {
+    border: none;
+    height: 1px;
+    /* Set the hr color */
+    color: #333;
+    /* old IE */
+    background-color: #333;
+    /* Modern Browsers */
 }
 
 /*##########################################################################

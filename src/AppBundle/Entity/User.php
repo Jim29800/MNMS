@@ -6,6 +6,10 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
 
 /**
  * User
@@ -228,6 +232,24 @@ class User extends BaseUser
     public function getAvatarFile()
     {
         return $this->avatarFile;
+    }
+
+    /**
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        if (!in_array($this->avatarFile->getMimeType(), array(
+            'image/jpeg',
+            'image/png',
+        ))) {
+            $context
+                ->buildViolation('Format non valide')
+                ->atPath('fileName')
+                ->addViolation();
+                echo "<div class='hidden imgerror'>".$context->getViolations()[0]->getMessage()."</div>";
+        }
     }
 
 }

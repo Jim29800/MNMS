@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Vich\UploaderBundle\Form\Type\VichFileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 // ...
 
 class UserType extends AbstractType
@@ -28,9 +28,9 @@ class UserType extends AbstractType
                         'placeholder' => ' Nom ']
             ))
 // ==================================================================================
-        ->add('avatarFile', VichFileType::class, array(
+        ->add('avatarFile', VichImageType::class, array(
             'required' => false,
-            'label' => 'Choisir votre avatar :',
+            'label' => 'Choisir votre avatar (jpg,gif,png):',
             'attr' => ['class' => 'form-bottom-margin imgInp',]
             ))
 // ==================================================================================
