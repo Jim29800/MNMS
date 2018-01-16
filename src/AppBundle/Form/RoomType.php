@@ -13,136 +13,167 @@ class RoomType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('Name',null,array(
+        $builder
+  //------------------------------------------------------------------------
+//formulaire de création de salle
+//-------------------------------------------------------------------------      
+        
+        ->add('Name',null,array(
             'label' => 'Nom de la salle',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Nom de la salle',
             ]
 
         ))
         ->add('Address', null, array(
             'label' => 'Adresse',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Adresse',
             ]
         ))
 
         ->add('City', null, array(
             'label' => 'Ville',
+            'label_attr' => ['class'=> 'room-all '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-all ',
                 'placeholder' => 'Ville',
             ]
         ))
 
         ->add('Zipcode', null, array(
             'label' => 'Code Postal',
+            'label_attr' => ['class'=> 'room-all '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-all ',
                 'placeholder' => 'Code Postal',
             ]
         ))
 
-        // ->add('Zipcode', null, array(
-        //     'label' => 'Zipcode',
-        //     'attr' => [
-        //         'class' => 'form-control form-bottom-margin',
-        //         'placeholder' => 'Code postal',
-        //     ]
-        // ))
-
         ->add('Country', null, array(
             'label' => 'Pays',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Pays',
             ]
         ))
 
         ->add('Area', null, array(
             'label' => 'Nombre de m²',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Nombre de m²',
             ]
         ))
-// add-on pour indiquer metre carré
-//         <div class="input-group">
-//   <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
-//   <span class="input-group-addon" id="basic-addon2">@example.com</span>
-// </div>
+
 
         ->add('MaxPeople', null, array(
             'label' => 'Nombre de personnes',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Nombre de personnes',
             ]
         ))
 
         ->add('Islet', null, array(
             'label' => 'Ilôts',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Ilôts',
             ]
         ))
 
         ->add('Projection', null, array(
             'label' => 'Projection',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Projection',
             ]
         ))
 
         ->add('Exit', null, array(
             'label' => 'Sorties',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Sorties',
             ]
         ))
 
         ->add('Wall', null, array(
             'label' => 'Murs',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Murs',
             ]
         ))
 
         ->add('Paperboard', null, array(
             'label' => 'Paperboard',
+            'label_attr' => ['class'=> 'room-new '],
+            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-new ',
                 'placeholder' => 'Paperboard',
             ]
         ))
+//------------------------------------------------------------------------
+// formulaire de demande de salle
+//-------------------------------------------------------------------------
 
         ->add('NeedPlace', null, array(
             'label' => 'J\'ai besoin d\'une salle',
+            'label_attr' => ['class'=> 'hidden'],            
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin hidden',
                 'placeholder' => 'J\'ai besoin d\'une salle',
             ]
         ))
 
         ->add('PlaceNumberPeople', null, array(
             'label' => 'Nombre de personnes',
+            'label_attr' => ['class'=> 'room-need '],
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-need ',
                 'placeholder' => 'Nombre de personnes',
             ]
         ))
 
         ->add('PlaceArea', null, array(
             'label' => 'Nombre de m²',
+            'label_attr' => ['class'=> 'room-need '],
             'attr' => [
-                'class' => 'form-control form-bottom-margin',
+                'class' => 'form-control form-bottom-margin room-need ',
                 'placeholder' => 'Nombre de m²',
+            ]
+            ))
+                    ->add('PlaceNumberIslet', null, array(
+            'label' => 'Nombre de ilots',
+            'label_attr' => ['class'=> 'room-need '],
+            'attr' => [
+                'class' => 'form-control form-bottom-margin room-need ',
+                'placeholder' => 'Nombre de ilots',
             ]
             ));
       
