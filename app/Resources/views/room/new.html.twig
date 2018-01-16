@@ -3,11 +3,16 @@
 {% block body %}
     <div class="col-xs-12 col-md-offset-3 col-md-6 text-center">
 
-        <h1>Nouvelle salle</h1>
+<button class="btn btn-default btn-block" id="btn-room-new">Nouvelle salle</button>
+<button class="btn btn-default btn-block" id="btn-room-need">J'ai besoin d'une salle</button>
+        
+        <h1 class="room-new">Nouvelle salle</h1>
 
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" class="btn btn-block" value="Créer la salle"/>
+        <input type="submit" class="btn btn-block room-new" value="Créer la salle"/>
+<input type="submit" class="btn btn-block room-need" value="Créer la demande"/>
+        
 
         {{ form_end(form) }}
         <br/>
@@ -15,4 +20,7 @@
 <a class="btn btn-default btn-block" href=" {{ path('workshop_event_select', { 'id': id }) }} ">Retour au choix de la salle</a>
 
     </div>
+{% endblock %}
+{% block javascripts %}
+<script src="{{ asset('js/room.js') }}"></script>
 {% endblock %}
