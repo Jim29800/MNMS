@@ -27,19 +27,22 @@ class EventController extends Controller
     /**
      * Creates a new event entity.
      *
-     * @Route("/new", name="workshop_event_new")
+     * @Route("/{id}/new", name="workshop_event_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $id)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $event = new Event();
+        $workshop = $em->getRepository("AppBundle:Workshop")->findOneById($id);
+        $event->setWorOid($workshop);
         $event->setIsOver(false)
             ->setIsReturned(false);
         $form = $this->createForm('AppBundle\Form\EventType', $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($event);
             $em->flush();
 
