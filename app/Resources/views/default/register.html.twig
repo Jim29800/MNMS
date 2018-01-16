@@ -24,6 +24,7 @@
             {{ form_errors(form.plainPassword.second) }}
             {{ form_widget(form.plainPassword.second) }}
             {{ form_label(form.avatarFile) }}
+            <span id="errorimg" class="redBold form-bottom-margin  col-xs-12"></span>
             {{ form_errors(form.avatarFile) }}
             {{ form_widget(form.avatarFile) }}
             <img id="imagepreview" src="{{ asset("/images/avatar.png") }}" class="register_avatar" alt="your image" />

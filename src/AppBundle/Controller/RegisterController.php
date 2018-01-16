@@ -37,7 +37,7 @@ class RegisterController extends Controller
                 $em->persist($user);
                 $em->flush();
 
-                return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+                return $this->redirectToRoute('fos_user_security_login');
             }
 
             return $this->render('default/register.html.twig', array(
