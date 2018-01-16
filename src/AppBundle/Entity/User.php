@@ -44,7 +44,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="usr_avatar", type="string", length=255)
+     * @ORM\Column(name="usr_avatar", type="string", length=255, nullable=true)
      */
     private $avatar;
 
