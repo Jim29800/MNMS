@@ -56,7 +56,7 @@ class UserController extends Controller
             $user->setLeaderOid($this->getUser());
 
 //------on set le password avec un mot de passe généré aléatoirement
-            $user->setPassword( "uniqid(): %s\r\n", uniqid());
+            $user->setPassword(generatePassword());
             $user->setUsername($userName);
 
 //------on set l'avatar avec l'image de l'utilisateur connecté
@@ -195,6 +195,20 @@ class UserController extends Controller
         } else {
            return false;
         }
+    }
+
+
+
+    function generatePassword($length = 13) {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $count = mb_strlen($chars);
+
+        for ($i = 0, $result = ''; $i < $length; $i++) {
+            $index = rand(0, $count - 1);
+            $result .= mb_substr($chars, $index, 1);
+        }
+
+        return $result;
     }
     
 }
