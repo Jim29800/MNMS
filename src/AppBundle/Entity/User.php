@@ -240,15 +240,18 @@ class User extends BaseUser
      */
     public function validate(ExecutionContextInterface $context)
     {
-        if (!in_array($this->avatarFile->getMimeType(), array(
-            'image/jpeg',
-            'image/png',
-        ))) {
-            $context
-                ->buildViolation('Format non valide')
-                ->atPath('fileName')
-                ->addViolation();
-                echo "<div class='hidden imgerror'>".$context->getViolations()[0]->getMessage()."</div>";
+        if (!empty($this->avatarFile)) {
+            
+            if (!in_array($this->avatarFile->getMimeType(), array(
+                'image/jpeg',
+                'image/png',
+            ))) {
+                $context
+                    ->buildViolation('Format non valide')
+                    ->atPath('fileName')
+                    ->addViolation();
+                    echo "<div class='hidden imgerror'>".$context->getViolations()[0]->getMessage()."</div>";
+            }
         }
     }
 
