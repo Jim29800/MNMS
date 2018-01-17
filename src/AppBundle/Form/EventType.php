@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 class EventType extends AbstractType
 {
     /**
@@ -13,7 +13,14 @@ class EventType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('date', DateType::class, array('label' => 'date', 'widget' => 'single_text'))
+        $builder->add('date', DateTimeType::class, array(
+            'label' => 'date', 
+            'date_widget' => 'single_text',
+            'time_widget' => 'single_text',
+            'format' => 'dd-MM-yyyy HH:mm',
+            'input'=> 'datetime' ,
+            'attr' => array('data-date-format' => 'dd-MM-yyyy HH:mm')
+            ))
         ->add('title');        
         //->add('isOver')
         //->add('isReturned')
