@@ -23,7 +23,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset ',
                 'placeholder' => 'Nom de la salle',
             ]
 
@@ -33,7 +33,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset ',
                 'placeholder' => 'Adresse',
             ]
         ))
@@ -43,7 +43,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-all '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-all ',
+                'class' => 'form-control form-bottom-margin room-all reset',
                 'placeholder' => 'Ville',
             ]
         ))
@@ -53,7 +53,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-all '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-all ',
+                'class' => 'form-control form-bottom-margin room-all reset',
                 'placeholder' => 'Code Postal',
             ]
         ))
@@ -63,7 +63,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset',
                 'placeholder' => 'Pays',
             ]
         ))
@@ -73,7 +73,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset',
                 'placeholder' => 'Nombre de m²',
             ]
         ))
@@ -84,7 +84,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset',
                 'placeholder' => 'Nombre de personnes',
             ]
         ))
@@ -94,7 +94,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset-box',
                 'placeholder' => 'Ilôts',
             ]
         ))
@@ -104,7 +104,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset-box',
                 'placeholder' => 'Projection',
             ]
         ))
@@ -114,7 +114,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset-box',
                 'placeholder' => 'Sorties',
             ]
         ))
@@ -124,7 +124,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset-box',
                 'placeholder' => 'Murs',
             ]
         ))
@@ -134,7 +134,7 @@ class RoomType extends AbstractType
             'label_attr' => ['class'=> 'room-new '],
             
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-new ',
+                'class' => 'form-control form-bottom-margin room-new reset-box',
                 'placeholder' => 'Paperboard',
             ]
         ))
@@ -146,7 +146,7 @@ class RoomType extends AbstractType
             'label' => 'J\'ai besoin d\'une salle',
             'label_attr' => ['class'=> 'hidden'],            
             'attr' => [
-                'class' => 'form-control form-bottom-margin hidden',
+                'class' => 'form-control form-bottom-margin hidden reset',
                 'placeholder' => 'J\'ai besoin d\'une salle',
             ]
         ))
@@ -155,7 +155,7 @@ class RoomType extends AbstractType
             'label' => 'Nombre de personnes',
             'label_attr' => ['class'=> 'room-need '],
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-need ',
+                'class' => 'form-control form-bottom-margin room-need reset',
                 'placeholder' => 'Nombre de personnes',
             ]
         ))
@@ -164,7 +164,7 @@ class RoomType extends AbstractType
             'label' => 'Nombre de m²',
             'label_attr' => ['class'=> 'room-need '],
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-need ',
+                'class' => 'form-control form-bottom-margin room-need reset',
                 'placeholder' => 'Nombre de m²',
             ]
             ))
@@ -172,7 +172,7 @@ class RoomType extends AbstractType
             'label' => 'Nombre de ilots',
             'label_attr' => ['class'=> 'room-need '],
             'attr' => [
-                'class' => 'form-control form-bottom-margin room-need ',
+                'class' => 'form-control form-bottom-margin room-need reset',
                 'placeholder' => 'Nombre de ilots',
             ]
             ));
@@ -198,3 +198,4 @@ class RoomType extends AbstractType
 
 
 }
+

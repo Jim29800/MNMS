@@ -75,12 +75,12 @@
                     {% if event.isReturned %}Yes{% else %}No{% endif %}
                 </td>
                 <td>
-                    <ul>
+                    <ul class="list-unstyled">
                         <li>
-                            <a href="{{ path('workshop_event_show', { 'id': event.id }) }}">show</a>
+<a class="btn btn-default form-bottom-margin" href=" {{ path('workshop_event_show', { 'id': event.id }) }} ">Afficher</a>
                         </li>
                         <li>
-                            <a href="{{ path('workshop_event_edit', { 'id': event.id }) }}">edit</a>
+<a class="btn btn-default form-bottom-margin" href="{{ path('workshop_event_edit', { 'id': event.id }) }}">Modifier</a>
                         </li>
                     </ul>
                 </td>
