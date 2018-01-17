@@ -127,6 +127,23 @@ class EventController extends Controller
         ));
     }
 
+    /**
+     * @Route("/planning", name="planning")
+     */
+    public function planningAction(){
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $events = $em->getRepository("AppBundle:Event")->findUserEvent($user);
+        
+        return $this->render("/event/planning.html.twig", array(
+            "events" => $events 
+        ));
+        // findByName("Christopher")
+        // findOneByName("Christopher")
+        // findAll()
+        // findBy(array("Name"=>"Christopher"),array( "Name" => "ASC");
+    }
+
 
 
 

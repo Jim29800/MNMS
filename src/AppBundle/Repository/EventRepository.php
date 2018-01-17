@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class EventRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findUserEvent($user){
+        $qb = $this->createQueryBuilder("e");
+        $qb->leftJoin("e.worOid", "w")
+        ->where("e.worOid = w.id")
+        ->andWhere("w.usrOid = :id")
+        ->orderBy("e.date", "DESC")
+        ->setParameter("id",$user);
+
+        return $qb->getQuery()->getResult();
+    }
 }
