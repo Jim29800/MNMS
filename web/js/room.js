@@ -7,7 +7,7 @@ $(document).ready(function () {
 $("#btn-room-new").click(function() {
     $("form :input").val("");
     $('input[type=checkbox]').prop('checked', false);
-    
+    $(".btn-room-new").val("Créer la salle");
     $("#appbundle_room_NeedPlace").prop("checked", false);
     $(".room-need").hide();    
     $(".room-new").show();
@@ -17,7 +17,7 @@ $("#btn-room-new").click(function() {
 $("#btn-room-need").click(function () {
     $("form :input").val("");
     $('input[type=checkbox]').prop('checked', false);
-
+    $(".btn-room-need").val("Demander la salle");
     $("#appbundle_room_NeedPlace").prop("checked", true);    
     $(".room-need").show();
     $(".room-new").hide();
