@@ -100,11 +100,19 @@ class WorkshopController extends Controller
      */
     public function showAction(Workshop $workshop)
     {
+        $em = $this->getDoctrine()->getManager();
+        $events = $em->getRepository('AppBundle:Event')->findByWorOid($workshop);
+
         $deleteForm = $this->createDeleteForm($workshop);
         return $this->render('workshop/show.html.twig', array(
             'workshop' => $workshop,
             'delete_form' => $deleteForm->createView(),
+            'events' => $events,
+            
         ));
+
+
+
     }
 
     /**
@@ -167,4 +175,8 @@ class WorkshopController extends Controller
             ->getForm()
         ;
     }
+
+
+
+
 }
