@@ -32,6 +32,9 @@
 
     <ul class="list-unstyled">
 <li class="form-bottom-margin">
+    <a class="btn btn-default btn-block" href="{{ path('workshop_event_new', { 'id' : workshop.id }) }}">Planifier un événement</a>
+</li>
+<li class="form-bottom-margin">
 <a class="btn btn-default btn-block"  href="{{ path('workshop_index') }}">Retour à la liste</a>
         </li>
 <li class="form-bottom-margin">
@@ -44,4 +47,45 @@
         </li>
     </ul>
     </div>
+<h2 class="col-xs-12 text-center">Liste des événements de l'atelier : {{ workshop.title }}</h2>
+<table class="table table-bordered col-xs-12">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Terminé</th>
+            <th>Restitué</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for event in events %}
+            <tr>
+                <td>
+                    <a href="{{ path('workshop_event_show', { 'id': event.id }) }}">{{ event.id }}</a>
+                </td>
+                <td>
+                    {% if event.date %}{{ event.date|date('Y-m-d H:i:s') }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if event.isOver %}Yes{% else %}No{% endif %}
+                </td>
+                <td>
+                    {% if event.isReturned %}Yes{% else %}No{% endif %}
+                </td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('workshop_event_show', { 'id': event.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('workshop_event_edit', { 'id': event.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
