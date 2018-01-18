@@ -53,6 +53,11 @@ class User extends BaseUser
     private $avatar;
 
     /**
+     * * @Assert\File(
+     *     maxSize = "500k",
+     *     mimeTypes = {"image/jpeg", "image/png"},
+     *     mimeTypesMessage = "Mauvais format d'image"
+     * )
      * @Vich\UploadableField(mapping="user_avatars", fileNameProperty="avatar")
      * @var File
      */
@@ -222,7 +227,7 @@ class User extends BaseUser
     public function setAvatarFile(File $avatar = null)
     {
         $this->avatarFile = $avatar;
-
+        
         if ($avatar) {
             // if 'updatedAt' is not defined in your entity, use another property
             $this->updatedAt = new \DateTime('now');
@@ -233,27 +238,5 @@ class User extends BaseUser
     {
         return $this->avatarFile;
     }
-
-    /**
-     * @Assert\Callback
-     * @param ExecutionContextInterface $context
-     */
-    public function validate(ExecutionContextInterface $context)
-    {
-        if (!empty($this->avatarFile)) {
-            
-            if (!in_array($this->avatarFile->getMimeType(), array(
-                'image/jpeg',
-                'image/png',
-            ))) {
-                $context
-                    ->buildViolation('Format non valide')
-                    ->atPath('fileName')
-                    ->addViolation();
-                    echo "<div class='hidden imgerror'>".$context->getViolations()[0]->getMessage()."</div>";
-            }
-        }
-    }
-
 }
 

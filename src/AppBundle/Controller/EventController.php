@@ -138,10 +138,6 @@ class EventController extends Controller
         return $this->render("/event/planning.html.twig", array(
             "events" => $events 
         ));
-        // findByName("Christopher")
-        // findOneByName("Christopher")
-        // findAll()
-        // findBy(array("Name"=>"Christopher"),array( "Name" => "ASC");
     }
 
 

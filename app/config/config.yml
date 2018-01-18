@@ -156,6 +156,7 @@ easy_admin:
                     - password
                     - enabled
             list:
+                dql_filter: 'entity.leaderOid is null'
                 fields:
                     - username
                     - firstName
