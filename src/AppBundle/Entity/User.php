@@ -13,8 +13,25 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
- *
  * @ORM\Table(name="usr_user")
+ * @ORM\AttributeOverrides({
+ *      @ORM\AttributeOverride(name="email",
+ *          column=@ORM\Column(
+ *              name     = "email",
+ *              type     = "string",
+ *              length   = 255,
+ *              nullable = true
+ *          )
+ *      ),
+ *      @ORM\AttributeOverride(name="emailCanonical",
+ *          column=@ORM\Column(
+ *              name     = "emailCanonical",
+ *              type     = "string",
+ *              length   = 255,
+ *              nullable = true
+ *          )
+ *      ),
+ * })
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @Vich\Uploadable
  */
