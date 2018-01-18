@@ -3,9 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\UserEvent;
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+
 
 /**
  * Userevent controller.
@@ -133,4 +136,87 @@ class UserEventController extends Controller
             ->getForm()
         ;
     }
-}
+
+
+
+
+    /**
+     * select
+     * 
+     * @Route("/select/{id}", name="workshop_event_participant")
+     *  @Method({"GET", "POST"})
+     */
+    public function selectAction(Request $request, $id){
+
+        $user = new User();
+
+        $em = $this->getDoctrine()->getManager();
+
+        $form1 = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
+        $form1->handleRequest($request);
+
+        if($form1->isSubmitted() && $form1->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+ //-----on crée une variable $lastUserId qui contient un id unique pour chaque participant en concaténant l'id du dernier utilisateur connecté+1 . le prénom  . le nom  
+            $lastUserId = $em->getRepository(User::class)->findLastUser()->getId();
+            $lastUserId ++;
+            $firstName = $user->getFirstname();
+            $lastName = $user->getLastname();
+
+            $userName = $lastUserId . $firstName . $lastName;
+
+//------on set l'objet LeaderOid avec l'objet user connecté 
+            $user->setLeaderOid($this->getUser());
+
+//------on set le password avec un mot de passe généré aléatoirement
+            $user->setPassword(password_hash($this->generatePassword(), PASSWORD_BCRYPT));
+            
+            $user->setUsername($userName);
+
+
+//------on set l'avatar avec l'image de l'utilisateur connecté
+            // $user->setAvatar($this->getUser());
+
+
+            $event = $em->getRepository("AppBundle:Event")->findOneById($id);
+// //----- on persist dans la base
+
+            $userEvent = new UserEvent();
+
+            $userEvent->setEveOid($event);
+            $userEvent->setUsrOid($user);
+            $userEvent->setIsParticipating(false);
+            
+            
+            $em->persist($user);
+            $em->persist($userEvent);
+
+            $em->flush();
+//------quand on crée un participant, on est redirigé vers la page select
+            return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
+        }
+return  $this->render('event/select_participant.html.twig', array(
+            'form1' => $form1->createView() ,
+        ));
+
+        }// fin de la méthode select
+
+
+function generatePassword($length = 13) {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $count = mb_strlen($chars);
+
+        for ($i = 0, $result = ''; $i < $length; $i++) {
+            $index = rand(0, $count - 1);
+            $result .= mb_substr($chars, $index, 1);
+        }
+
+        return $result;
+    }
+    
+
+
+     }
+
+
