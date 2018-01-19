@@ -24,10 +24,6 @@
                 {{ form_errors(form.plainPassword.second) }}
                 {{ form_widget(form.plainPassword.second) }}
                 {{ form_label(form.avatarFile) }}
-            {% set error_flag = form_errors(form.avatarFile) %}
-            {% if error_flag %}
-                {{ form_errors(form.avatarFile) }}
-            {% endif %}
                 {{ form_errors(form.avatarFile) }}
                 {{ form_widget(form.avatarFile) }}
                 <img id="imagepreview" src="{{ asset(" /images/avatar.png") }}" class="register_avatar" alt="your image"/>
