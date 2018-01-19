@@ -35,7 +35,10 @@ class UserEventType extends AbstractType
                         ->where('u.leaderOid = :userConnected')
                         ->setParameter('userConnected', $userConnected);
                 },
-                
+                // pour récupérer le nom et le prénom pour afficher dans le select
+                'choice_label' => function($obj){
+                    return $obj->getLastName()." ".$obj->getFirstName() ;
+                }
             ]
         );
     }/**
