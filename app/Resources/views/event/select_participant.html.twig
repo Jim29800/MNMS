@@ -3,7 +3,9 @@
 {% block body %}
 
 {{ form_start(form2) }}
-{{ form_widget(form2) }}
+
+{{ form_widget(form2.usrOid) }}
+{{ dump(form2.usrOid) }}
 <input type="submit" value="Ajouter"/>
 {{ form_end(form2)}}
 
