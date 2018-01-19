@@ -154,33 +154,19 @@ class UserEventController extends Controller
 
         $form1 = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
         $form1->handleRequest($request);
+        $event = $em->getRepository("AppBundle:Event")->findOneById($id);
 
         if($form1->isSubmitted() && $form1->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
- //-----on crée une variable $lastUserId qui contient un id unique pour chaque participant en concaténant l'id du dernier utilisateur connecté+1 . le prénom  . le nom  
             $lastUserId = $em->getRepository(User::class)->findLastUser()->getId();
             $lastUserId ++;
             $firstName = $user->getFirstname();
             $lastName = $user->getLastname();
-
             $userName = $lastUserId . $firstName . $lastName;
 
-//------on set l'objet LeaderOid avec l'objet user connecté 
             $user->setLeaderOid($this->getUser());
-
-//------on set le password avec un mot de passe généré aléatoirement
             $user->setPassword(password_hash($this->generatePassword(), PASSWORD_BCRYPT));
-            
             $user->setUsername($userName);
 
-
-//------on set l'avatar avec l'image de l'utilisateur connecté
-            // $user->setAvatar($this->getUser());
-
-
-            $event = $em->getRepository("AppBundle:Event")->findOneById($id);
-// //----- on persist dans la base
 
             $userEvent = new UserEvent();
 
@@ -188,19 +174,84 @@ class UserEventController extends Controller
             $userEvent->setUsrOid($user);
             $userEvent->setIsParticipating(false);
             
-            
             $em->persist($user);
             $em->persist($userEvent);
-
             $em->flush();
-//------quand on crée un participant, on est redirigé vers la page select
+
             return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
         }
-return  $this->render('event/select_participant.html.twig', array(
+
+        $participants = $em->getRepository("AppBundle:UserEvent")->findByEveOid($id);
+
+        
+$userConnected = $this->getUser();
+
+$userEvent = new UserEvent();
+
+$form2 = $this->createForm("AppBundle\Form\UserEventType", $userEvent,["userConnected" => $userConnected]);
+
+$form2->handleRequest($request);
+
+if($form2->isSubmitted() && $form2->isValid()) {
+
+    
+    $data = $form2->getData();
+    $tab = $data->getUsrOid();
+
+    foreach ($tab as $test) {
+        $userEvent2 = new UserEvent();
+        $userEvent2->setIsParticipating(false);
+        $userEvent2->setEveOid($event);
+        $userEvent2->setUsrOid($test);
+        $em->persist($userEvent2);
+        $em->flush();
+    
+    }
+    
+
+
+
+
+  return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    return  $this->render('event/select_participant.html.twig', array(
             'form1' => $form1->createView() ,
+            'participants' => $participants,
+            'form2' => $form2->createView(),
         ));
 
-        }// fin de la méthode select
+        }// fin de la méthode selectAction
 
 
 function generatePassword($length = 13) {
