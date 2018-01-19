@@ -194,12 +194,24 @@ $form2->handleRequest($request);
 
 if($form2->isSubmitted() && $form2->isValid()) {
 
-    $userEvent->setIsParticipating(false);
+    
+    $data = $form2->getData();
+    $tab = $data->getUsrOid();
 
-    $userEvent->setEveOid($event);
+    foreach ($tab as $test) {
+        $userEvent2 = new UserEvent();
+        $userEvent2->setIsParticipating(false);
+        $userEvent2->setEveOid($event);
+        $userEvent2->setUsrOid($test);
+        $em->persist($userEvent2);
+        $em->flush();
+    
+    }
+    
 
-    $em->persist($userEvent);
-    $em->flush();
+
+
+
   return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
 
 }
