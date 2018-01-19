@@ -16,9 +16,9 @@ class ContributorType extends AbstractType
         $builder->add('name',
                 null,
             [
-                'label' => "Intervenant",
+                'label' => "Facilitateur / expert",
                 'attr' => [
-                    'placeholder' => "Intervenant",
+                    'placeholder' => "Facilitateur / expert",
                     'class' => 'form-control form-bottom-margin',
                 ],
             ]

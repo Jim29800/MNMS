@@ -23,8 +23,8 @@ class EventContributorSelectType extends AbstractType
             'conOid', 
             EntityType::class,
             [
-                'label' => "Sélection de l'intervenant : ",
-                'placeholder' => "Sélectionner l'intervenant",
+                'label' => "Sélection du facilitateur / expert : ",
+                'placeholder' => "Sélectionner le facilitateur / expert",
                 'attr' => [
                     'class' => 'form-control form-bottom-margin',
                 ],

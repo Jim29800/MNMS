@@ -3,23 +3,23 @@
 {% block body %}
     <a class="btn btn-default btn-block" href="{{ path('workshop_list') }}">Terminer</a>
 
-    <h1>Selectionner l'intervenant à ajouter</h1>
+    <h1>Selectionner le facililitateur / expert à ajouter</h1>
     {{ form_start(form) }}
     {{ form_widget(form) }}
 
     <input type="submit" value="Ajouter l'intervenant"/>
     {{ form_end(form) }}
 
-    <h2>Ajouer un intervenant à la liste</h2>
+    <h2>Ajouter un facilitateur / expert à la liste</h2>
 
     {{ form_start(form2) }}
     {{ form_widget(form2) }}
 
-    <input type="submit" value="Enregistré le nouvel intervenant"/>
+    <input type="submit" value="Enregistrer le nouvel intervenant"/>
     {{ form_end(form2) }}
 
 
-    <h2>Liste des intervenants participant</h2>
+    <h2>Liste des intervenants de l'événement</h2>
     <table class="table">
         <thead>
             <tr>
