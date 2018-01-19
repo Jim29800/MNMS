@@ -2,43 +2,46 @@
 
 {% block body %}
 
-{{ form_start(form) }}
-{# {{ dump(form) }} #}
+    {{ form_start(form) }}
+    {# {{ dump(form) }} #}
 
-<div class="form-group col-xs-12 col-md-4 col-md-offset-4">
-    <div class="panel panel-default">
-        <div class="panel-heading text-center">
-        <h4>Creer un compte</h4>
-        </div>
-        <div class="panel-body">
-            {{ form_errors(form.lastname) }}
-            {{ form_widget(form.lastname) }}
-            {{ form_errors(form.firstname) }}
-            {{ form_widget(form.firstname) }}
-            {{ form_errors(form.email) }}
-            {{ form_widget(form.email) }}
-            {{ form_errors(form.username) }}
-            {{ form_widget(form.username) }}
-            {{ form_errors(form.plainPassword.first) }}
-            {{ form_widget(form.plainPassword.first) }}
-            {{ form_errors(form.plainPassword.second) }}
-            {{ form_widget(form.plainPassword.second) }}
-            {{ form_label(form.avatarFile) }}
-            <span id="errorimg" class="redBold form-bottom-margin  col-xs-12"></span>
-            {{ form_errors(form.avatarFile) }}
-            {{ form_widget(form.avatarFile) }}
-            <img id="imagepreview" src="{{ asset("/images/avatar.png") }}" class="register_avatar" alt="your image" />
-            <div class="col-xs-8 col-xs-offset-2 col-md-10 col-md-offset-1">
-                <input class="btn btn-success btn-block btn-signin" type="submit" value="Creer un compte"/>
+    <div class="form-group col-xs-12 col-md-4 col-md-offset-4">
+        <div class="panel panel-default">
+            <div class="panel-heading text-center">
+                <h4>Creer un compte</h4>
+            </div>
+            <div class="panel-body">
+                {{ form_errors(form.lastname) }}
+                {{ form_widget(form.lastname) }}
+                {{ form_errors(form.firstname) }}
+                {{ form_widget(form.firstname) }}
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email) }}
+                {{ form_errors(form.username) }}
+                {{ form_widget(form.username) }}
+                {% for message in app.flashes('checkPwd') %}
+                        {{ message|raw }}
+                {% endfor %}
+
+                {{ form_errors(form.plainPassword.first) }}
+                {{ form_widget(form.plainPassword.first) }}
+                {{ form_errors(form.plainPassword.second) }}
+                {{ form_widget(form.plainPassword.second) }}
+                {{ form_label(form.avatarFile) }}
+                <span id="errorimg" class="redBold form-bottom-margin  col-xs-12"></span>
+                {{ form_errors(form.avatarFile) }}
+                {{ form_widget(form.avatarFile) }}
+                <img id="imagepreview" src="{{ asset(" /images/avatar.png") }}" class="register_avatar" alt="your image"/>
+                <div class="col-xs-8 col-xs-offset-2 col-md-10 col-md-offset-1">
+                    <input class="btn btn-success btn-block btn-signin" type="submit" value="Creer un compte"/>
+                </div>
             </div>
         </div>
-    </div>  
-</div>
+    </div>
 
-{{ form_end(form) }}
+    {{ form_end(form) }}
 
-
-{% block javascripts %}
-    <script src="../js/register_new.js"></script>
-{% endblock %}
+    {% block javascripts %}
+        <script src="../js/register_new.js"></script>
+    {% endblock %}
 {% endblock %}

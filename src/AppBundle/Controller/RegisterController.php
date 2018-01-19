@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RegisterController extends Controller
 {
-    
+
     /**
      * Creates a new user entity.
      *
@@ -24,18 +24,27 @@ class RegisterController extends Controller
      */
     public function newAction(Request $request)
     {
-        if(($this->getUser())){
+        if (($this->getUser())) {
             return $this->redirectToRoute('homepage');
-        }else{
+        } else {
             $user = new User();
             $user->setEnabled(1);
             $form = $this->createForm('AppBundle\Form\UserType', $user);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
+                if ($this->checkPassword($user->getPlainPassword()) === "") {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($user);
+                    $em->flush();
+                } else {
+                    $message = $this->checkPassword($user->getPlainPassword());
+                    $this->addFlash('checkPwd', $message);
+                    return $this->render('default/register.html.twig', array(
+                        'user' => $user,
+                        'form' => $form->createView(),
+                    ));
+                }
 
                 return $this->redirectToRoute('fos_user_security_login');
             }
@@ -45,6 +54,25 @@ class RegisterController extends Controller
                 'form' => $form->createView(),
             ));
         }
-        
+
+    }
+
+
+    public function checkPassword($password, $pwdLength = 8)
+    {
+        $message = "";
+        if (strlen($password) < $pwdLength) {
+            $message .= "<li>Votre mot de passe doit contenir au moins " . $pwdLength . " caractères</li>";
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            $message .= "<li>Votre mot de passe doit contenir au moins 1 Majuscule</li>";
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            $message .= "<li>Votre mot de passe doit contenir au moins 1 Minuscule</li>";
+        }
+        if (!preg_match('/[0-9]/', $password)) {
+            $message .= "<li>Votre mot de passe doit contenir au moins 1 Chiffre</li>";
+        }
+        return $message;
     }
 }
