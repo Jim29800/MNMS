@@ -154,25 +154,18 @@ class UserEventController extends Controller
 
         $form1 = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
         $form1->handleRequest($request);
+        $event = $em->getRepository("AppBundle:Event")->findOneById($id);
 
         if($form1->isSubmitted() && $form1->isValid()) {
             $lastUserId = $em->getRepository(User::class)->findLastUser()->getId();
             $lastUserId ++;
             $firstName = $user->getFirstname();
             $lastName = $user->getLastname();
-
             $userName = $lastUserId . $firstName . $lastName;
 
-
             $user->setLeaderOid($this->getUser());
-
             $user->setPassword(password_hash($this->generatePassword(), PASSWORD_BCRYPT));
-            
             $user->setUsername($userName);
-
-
-
-            $event = $em->getRepository("AppBundle:Event")->findOneById($id);
 
 
             $userEvent = new UserEvent();
@@ -181,10 +174,8 @@ class UserEventController extends Controller
             $userEvent->setUsrOid($user);
             $userEvent->setIsParticipating(false);
             
-            
             $em->persist($user);
             $em->persist($userEvent);
-
             $em->flush();
 
             return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
@@ -198,6 +189,20 @@ $userConnected = $this->getUser();
 $userEvent = new UserEvent();
 
 $form2 = $this->createForm("AppBundle\Form\UserEventType", $userEvent,["userConnected" => $userConnected]);
+
+$form2->handleRequest($request);
+
+if($form2->isSubmitted() && $form2->isValid()) {
+
+    $userEvent->setIsParticipating(false);
+
+    $userEvent->setEveOid($event);
+
+    $em->persist($userEvent);
+    $em->flush();
+  return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
+
+}
 
 
 
