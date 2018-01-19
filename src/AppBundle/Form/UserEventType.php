@@ -38,7 +38,9 @@ class UserEventType extends AbstractType
                 // pour récupérer le nom et le prénom pour afficher dans le select
                 'choice_label' => function($obj){
                     return $obj->getLastName()." ".$obj->getFirstName() ;
-                }
+                },
+                "expanded" => true,
+                "multiple" => true,
             ]
         );
     }/**
