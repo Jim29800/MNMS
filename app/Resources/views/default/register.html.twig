@@ -1,10 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
     {{ form_start(form) }}
-    {# {{ dump(form) }} #}
-
     <div class="form-group col-xs-12 col-md-4 col-md-offset-4">
         <div class="panel panel-default">
             <div class="panel-heading text-center">
@@ -22,13 +19,15 @@
                 {% for message in app.flashes('checkPwd') %}
                         {{ message|raw }}
                 {% endfor %}
-
                 {{ form_errors(form.plainPassword.first) }}
                 {{ form_widget(form.plainPassword.first) }}
                 {{ form_errors(form.plainPassword.second) }}
                 {{ form_widget(form.plainPassword.second) }}
                 {{ form_label(form.avatarFile) }}
-                <span id="errorimg" class="redBold form-bottom-margin  col-xs-12"></span>
+            {% set error_flag = form_errors(form.avatarFile) %}
+            {% if error_flag %}
+                {{ form_errors(form.avatarFile) }}
+            {% endif %}
                 {{ form_errors(form.avatarFile) }}
                 {{ form_widget(form.avatarFile) }}
                 <img id="imagepreview" src="{{ asset(" /images/avatar.png") }}" class="register_avatar" alt="your image"/>
