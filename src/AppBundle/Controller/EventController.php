@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Form\EventType;
 use Doctrine\ORM\EntityRepository;
 
@@ -30,29 +31,35 @@ class EventController extends Controller
      * @Route("/{id}/new", name="workshop_event_new")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request, $id)
+    public function newAction(Request $request, $id, Event $event)
     {
-        $em = $this->getDoctrine()->getManager();
+        if($this->checkUserLegacy($event)) {
         
-        $event = new Event();
-        $workshop = $em->getRepository("AppBundle:Workshop")->findOneById($id);
-        $event->setWorOid($workshop);
-        $event->setIsOver(false)
-            ->setIsReturned(false);
-        $form = $this->createForm('AppBundle\Form\EventType', $event);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($event);
-            $em->flush();
+            $em = $this->getDoctrine()->getManager();
+            
+            $event = new Event();
+            $workshop = $em->getRepository("AppBundle:Workshop")->findOneById($id);
+            $event->setWorOid($workshop);
+            $event->setIsOver(false)
+                ->setIsReturned(false);
+            $form = $this->createForm('AppBundle\Form\EventType', $event);
+            $form->handleRequest($request);
 
-            return $this->redirectToRoute('workshop_event_select', array('id' => $event->getId()));
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em->persist($event);
+                $em->flush();
+
+                return $this->redirectToRoute('workshop_event_select', array('id' => $event->getId()));
+            }
+
+            return $this->render('event/new.html.twig', array(
+                'event' => $event,
+                'form' => $form->createView(),
+            ));
+        } else {
+            return new Response("accès refusé");
         }
-
-        return $this->render('event/new.html.twig', array(
-            'event' => $event,
-            'form' => $form->createView(),
-        ));
     }
     /**
      * workshop_event_select : selecteur des rooms lier à l'utilisateur
@@ -63,68 +70,78 @@ class EventController extends Controller
     public function selectAction(Request $request, Event $event)
     {
 
-        //$data = $request->getContent();
-        $em = $this->getDoctrine()->getManager();
+        if($this->checkUserLegacy($event)) {
+        
+            //$data = $request->getContent();
+            $em = $this->getDoctrine()->getManager();
 
-        $user = $this->getUser();
+            $user = $this->getUser();
 
-        $form = $this->createForm('AppBundle\Form\EventSelectType', $event, ["user" => $user]);
-        $form->handleRequest($request);
+            $form = $this->createForm('AppBundle\Form\EventSelectType', $event, ["user" => $user]);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('workshop_event_contributor', array('id' => $event->getId()));
+                return $this->redirectToRoute('workshop_event_contributor', array('id' => $event->getId()));
+            }
+
+            return $this->render('event/select.html.twig', array(
+                'event' => $event,
+                'form' => $form->createView(),
+
+            ));
+        } else {
+            return new Response("accès refusé");
         }
-
-        return $this->render('event/select.html.twig', array(
-            'event' => $event,
-            'form' => $form->createView(),
-
-        ));
     }
 
 
     /**
-     * workshop_event_room_new : selecteur des rooms lier à l'utilisateur
+     * workshop_event_room_new : selecteur des rooms liées à l'utilisateur
      *
      * @Route("/{id}/room/new", name="workshop_event_room_new")
      * @Method({"GET", "POST"})
      */
     public function roomNewAction(Request $request, Event $event)
     {
-        $room = new Room();
-        $form = $this->createForm('AppBundle\Form\RoomType', $room);
-        $form->handleRequest($request);
+        if($this->checkUserLegacy($event)) {
+        
+            $room = new Room();
+            $form = $this->createForm('AppBundle\Form\RoomType', $room);
+            $form->handleRequest($request);
 
-        $em = $this->getDoctrine()->getManager();
-
-        $user = $this->getUser();
-
-        $form = $this->createForm('AppBundle\Form\RoomType', $room);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            //room
             $em = $this->getDoctrine()->getManager();
-            $em->persist($room);
-            $em->flush();
-            //event
+
+            $user = $this->getUser();
+
+            $form = $this->createForm('AppBundle\Form\RoomType', $room);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                //room
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($room);
+                $em->flush();
+                //event
 
 
-            $last_room = $this->getDoctrine()->getRepository(Room::class)->findLastRoom();
-            $event->setRooOid($last_room);
+                $last_room = $this->getDoctrine()->getRepository(Room::class)->findLastRoom();
+                $event->setRooOid($last_room);
 
-            $this->getDoctrine()->getManager()->flush();
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('workshop_event_contributor', array('id' => $event->getId()));
+                return $this->redirectToRoute('workshop_event_contributor', array('id' => $event->getId()));
+            }
+
+            return $this->render('room/new.html.twig', array(
+                'form' => $form->createView(),
+                'room' => $room,
+                'id' => $event->getId(),
+            ));
+        } else {
+            return new Response('accès refusé');
         }
-
-        return $this->render('room/new.html.twig', array(
-            'form' => $form->createView(),
-            'room' => $room,
-            'id' => $event->getId(),
-        ));
     }
 
     /**
@@ -211,12 +228,18 @@ class EventController extends Controller
      */
     public function showAction(Event $event)
     {
-        $deleteForm = $this->createDeleteForm($event);
 
-        return $this->render('event/show.html.twig', array(
-            'event' => $event,
-            'delete_form' => $deleteForm->createView(),
-        ));
+        if($this->checkUserLegacy($event)) {
+
+            $deleteForm = $this->createDeleteForm($event);
+
+            return $this->render('event/show.html.twig', array(
+                'event' => $event,
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+            return new Response('accès refusé');
+        }
     }
 
     /**
@@ -225,23 +248,29 @@ class EventController extends Controller
      * @Route("/{id}/edit", name="workshop_event_edit")
      * @Method({"GET", "POST"})
      */
+    
     public function editAction(Request $request, Event $event)
     {
-        $deleteForm = $this->createDeleteForm($event);
-        $editForm = $this->createForm('AppBundle\Form\EventType', $event);
-        $editForm->handleRequest($request);
+        if($this->checkUserLegacy($event)) {
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $deleteForm = $this->createDeleteForm($event);
+            $editForm = $this->createForm('AppBundle\Form\EventType', $event);
+            $editForm->handleRequest($request);
 
-            return $this->redirectToRoute('workshop_event_edit', array('id' => $event->getId()));
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('workshop_event_edit', array('id' => $event->getId()));
+            }
+
+            return $this->render('event/edit.html.twig', array(
+                'event' => $event,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+            return new Response('accès refusé');
         }
-
-        return $this->render('event/edit.html.twig', array(
-            'event' => $event,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -279,4 +308,15 @@ class EventController extends Controller
             ->getForm()
         ;
     }
+
+    public function checkUserLegacy($event) {
+        $userConnected = $this->getUser();
+        $eventUsrId = $event->getWorOid()->getUsrOid();
+        if($userConnected === $eventUsrId) {
+            return true;
+        } else {
+           return false;
+        }
+    }
+
 }
