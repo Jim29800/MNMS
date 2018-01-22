@@ -28,7 +28,7 @@ class RoomController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $rooms = $em->getRepository('AppBundle:Room')->findAllRoom($id);
-        var_dump($rooms);
+       
         
         return $this->render('room/index.html.twig', array(
             'rooms' => $rooms,
