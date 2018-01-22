@@ -33,13 +33,14 @@ class EventController extends Controller
      */
     public function newAction(Request $request, $id, Event $event)
     {
-        if($this->checkUserLegacy($event)) {
-        
+        $em = $this->getDoctrine()->getManager();
+        $workshop = $em->getRepository("AppBundle:Workshop")->findOneById($id);
 
-            $em = $this->getDoctrine()->getManager();
+        if($this->checkUserLegacy($workshop)) {
+            
+            
             
             $event = new Event();
-            $workshop = $em->getRepository("AppBundle:Workshop")->findOneById($id);
             $event->setWorOid($workshop);
             $event->setIsOver(false)
                 ->setIsReturned(false);
@@ -70,7 +71,7 @@ class EventController extends Controller
     public function selectAction(Request $request, Event $event)
     {
 
-        if($this->checkUserLegacy($event)) {
+        if($this->checkUserLegacy($event->getWorOid())) {
         
             //$data = $request->getContent();
             $em = $this->getDoctrine()->getManager();
@@ -105,7 +106,7 @@ class EventController extends Controller
      */
     public function roomNewAction(Request $request, Event $event)
     {
-        if($this->checkUserLegacy($event)) {
+        if($this->checkUserLegacy($event->getWorOid())) {
         
             $room = new Room();
             $form = $this->createForm('AppBundle\Form\RoomType', $room);
@@ -158,6 +159,16 @@ class EventController extends Controller
     }
 
 
+    public function checkUserLegacy($event)
+    {
+        $userConnected = $this->getUser();
+        $workshopUsrOid = $event->getUsrOid();
+        if ($userConnected === $workshopUsrOid) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 
@@ -229,7 +240,7 @@ class EventController extends Controller
     public function showAction(Event $event)
     {
 
-        if($this->checkUserLegacy($event)) {
+        if($this->checkUserLegacy($event->getWorOid())) {
 
             $deleteForm = $this->createDeleteForm($event);
 
@@ -251,7 +262,7 @@ class EventController extends Controller
     
     public function editAction(Request $request, Event $event)
     {
-        if($this->checkUserLegacy($event)) {
+        if($this->checkUserLegacy($event->getWorOid())) {
 
             $deleteForm = $this->createDeleteForm($event);
             $editForm = $this->createForm('AppBundle\Form\EventType', $event);
@@ -309,14 +320,5 @@ class EventController extends Controller
         ;
     }
 
-    public function checkUserLegacy($event) {
-        $userConnected = $this->getUser();
-        $eventUsrId = $event->getWorOid()->getUsrOid();
-        if($userConnected === $eventUsrId) {
-            return true;
-        } else {
-           return false;
-        }
-    }
 
 }

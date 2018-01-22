@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-       
+
         return $this->render('user/index.html.twig');
     }
 
@@ -36,50 +36,56 @@ class UserController extends Controller
      */
     public function newAction(Request $request)
     {
-        $user = new User();
-//--on appelle le formulaire pour participant
-        $form = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
-        $form->handleRequest($request);
+        
 
-        if ($form->isSubmitted() && $form->isValid()) {
-          
-            $em = $this->getDoctrine()->getManager();
- //-----on crée une variable $lastUserId qui contient un id unique pour chaque participant en concaténant l'id du dernier utilisateur connecté+1 . le prénom  . le nom  
-            $lastUserId = $em->getRepository(User::class)->findLastUser()->getId();
-            $lastUserId ++;
-            $firstName = $user->getFirstname();
-            $lastName = $user->getLastname();
+        if ($this->checkUserLegacy($user)) {
+            $user = new User();
+                //--on appelle le formulaire pour participant
+            $form = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
+            $form->handleRequest($request);
 
-            $userName = $lastUserId . $firstName . $lastName;
+            if ($form->isSubmitted() && $form->isValid()) {
 
-//------on set l'objet LeaderOid avec l'objet user connecté 
-            $user->setLeaderOid($this->getUser());
+                $em = $this->getDoctrine()->getManager();
+                //-----on crée une variable $lastUserId qui contient un id unique pour chaque participant en concaténant l'id du dernier utilisateur connecté+1 . le prénom  . le nom  
+                $lastUserId = $em->getRepository(User::class)->findLastUser()->getId();
+                $lastUserId++;
+                $firstName = $user->getFirstname();
+                $lastName = $user->getLastname();
 
-//------on set le password avec un mot de passe généré aléatoirement
-            $user->setPassword(password_hash($this->generatePassword(), PASSWORD_BCRYPT));
-            
-            $user->setUsername($userName);
+                $userName = $lastUserId . $firstName . $lastName;
 
-//------on set l'avatar avec l'image de l'utilisateur connecté
+                //------on set l'objet LeaderOid avec l'objet user connecté 
+                $user->setLeaderOid($this->getUser());
+
+                //------on set le password avec un mot de passe généré aléatoirement
+                $user->setPassword(password_hash($this->generatePassword(), PASSWORD_BCRYPT));
+
+                $user->setUsername($userName);
+
+                //------on set l'avatar avec l'image de l'utilisateur connecté
             // $user->setAvatar($this->getUser());
   
             
 
-//----- on persist dans la base
-            $em->persist($user);
-            $em->flush();
-//------quand on crée un participant, on est redirigé vers le détail du participant
-            return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+                //----- on persist dans la base
+                $em->persist($user);
+                $em->flush();
+                //------quand on crée un participant, on est redirigé vers le détail du participant
+                return $this->redirectToRoute('user_show', array('id' => $user->getId()));
+            }
+                //------le controller appelle la vue correspondante
+            return $this->render('user/new.html.twig', array(
+                'user' => $user,
+                'form' => $form->createView(),
+            ));
+        } else {
+            return new Response("Accès refusé");
         }
-//------le controller appelle la vue correspondante
-        return $this->render('user/new.html.twig', array(
-            'user' => $user,
-            'form' => $form->createView(),
-        ));
     }
 
 
-/**
+    /**
      * Liste tous les participants en fonction du user qui les a créés et par ordre alphabétique
      *
      * @Route("/list", name="user_list")
@@ -87,14 +93,19 @@ class UserController extends Controller
      */
     public function listAction()
     {
+        
 
-        $user = $this->getUser();
-        $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('AppBundle:User')
-        ->findBy(array("leaderOid" => $user), array('lastname' => 'ASC'));
-        return $this->render('user/list.html.twig', array(
-            'users' => $users,
-        ));
+        if ($this->checkUserLegacy($user)) {
+            $user = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+            $users = $em->getRepository('AppBundle:User')
+                ->findBy(array("leaderOid" => $user), array('lastname' => 'ASC'));
+            return $this->render('user/list.html.twig', array(
+                'users' => $users,
+            ));
+        } else {
+            return new Response("Accès refusé");
+        }
     }
 
 
@@ -108,16 +119,16 @@ class UserController extends Controller
     public function showAction(User $user)
     {
         
-        
-        if($this->checkUserLegacy($user)) {
-        
+
+        if ($this->checkUserLegacy($user)) {
+
             $deleteForm = $this->createDeleteForm($user);
             return $this->render('user/show.html.twig', array(
                 'user' => $user,
                 'delete_form' => $deleteForm->createView(),
             ));
         } else {
-           return new Response("Accès refusé");
+            return new Response("Accès refusé");
         }
     }
 
@@ -129,8 +140,8 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
-        if($this->checkUserLegacy($user)) {
-        
+        if ($this->checkUserLegacy($user)) {
+
             $deleteForm = $this->createDeleteForm($user);
             $editForm = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
             $editForm->handleRequest($request);
@@ -147,8 +158,8 @@ class UserController extends Controller
                 'delete_form' => $deleteForm->createView(),
             ));
         } else {
-           return new Response("Accès refusé");
-            
+            return new Response("Accès refusé");
+
         }
     }
 
@@ -160,16 +171,23 @@ class UserController extends Controller
      */
     public function deleteAction(Request $request, User $user)
     {
-        $form = $this->createDeleteForm($user);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($user);
-            $em->flush();
+
+        if ($this->checkUserLegacy($user)) {
+            $form = $this->createDeleteForm($user);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($user);
+                $em->flush();
+            }
+
+            return $this->redirectToRoute('user_index');
+        } else {
+            return new Response("Accès refusé");
+
         }
-
-        return $this->redirectToRoute('user_index');
     }
 
     /**
@@ -184,23 +202,24 @@ class UserController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 
-    public function checkUserLegacy($user) {
+    public function checkUserLegacy($user)
+    {
         $userConnected = $this->getUser();
         $userParticipant = $user->getLeaderOid();
-        if($userConnected === $userParticipant) {
+        if ($userConnected === $userParticipant) {
             return true;
         } else {
-           return false;
+            return false;
         }
     }
 
 
 
-    function generatePassword($length = 13) {
+    function generatePassword($length = 13)
+    {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $count = mb_strlen($chars);
 
@@ -211,5 +230,5 @@ class UserController extends Controller
 
         return $result;
     }
-    
+
 }

@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -147,117 +148,89 @@ class UserEventController extends Controller
      */
     public function selectAction(Request $request, $id)
     {
-
-        $user = new User();
-
         $em = $this->getDoctrine()->getManager();
+        $event = $em->getRepository("AppBundle:Event")->findOneById($id);
+        if ($this->checkUserLegacy($event->getWorOid()->getUsrOid())) {
+
+            $user = new User();
+
 
         //formulaire pour créer un nouveau participant non existant
-        $form1 = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
-        $form1->handleRequest($request);
+            $form1 = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
+            $form1->handleRequest($request);
 
         // on récupère l'objet event correspondant à l'id passé dans l'url
-        $event = $em->getRepository("AppBundle:Event")->findOneById($id);
 
-        if ($form1->isSubmitted() && $form1->isValid()) {
+            if ($form1->isSubmitted() && $form1->isValid()) {
             //paramètres par défaut obligatoires------------------
-            $lastUserId = $em->getRepository(User::class)->findLastUser()->getId();
-            $lastUserId++;
-            $firstName = $user->getFirstname();
-            $lastName = $user->getLastname();
-            $userName = $lastUserId . $firstName . $lastName;
+                $lastUserId = $em->getRepository(User::class)->findLastUser()->getId();
+                $lastUserId++;
+                $firstName = $user->getFirstname();
+                $lastName = $user->getLastname();
+                $userName = $lastUserId . $firstName . $lastName;
 
-            $user->setLeaderOid($this->getUser());
-            $user->setPassword(password_hash($this->generatePassword(), PASSWORD_BCRYPT));
-            $user->setUsername($userName);
+                $user->setLeaderOid($this->getUser());
+                $user->setPassword(password_hash($this->generatePassword(), PASSWORD_BCRYPT));
+                $user->setUsername($userName);
             //------------------------------------------------------
 
-            $userEvent = new UserEvent();
+                $userEvent = new UserEvent();
 
-            $userEvent->setEveOid($event);
-            $userEvent->setUsrOid($user);
-            $userEvent->setIsParticipating(false);
+                $userEvent->setEveOid($event);
+                $userEvent->setUsrOid($user);
+                $userEvent->setIsParticipating(false);
 
-            $em->persist($user);
-            $em->persist($userEvent);
-            $em->flush();
-
-            return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
-        }
-
-        $participants = $em->getRepository("AppBundle:UserEvent")->findByEveOid($id);
-
-
-        $userConnected = $this->getUser();
-
-        $userEvent = new UserEvent();
-        //formulaire pour rajouter un participant déjà existant
-        $form2 = $this->createForm("AppBundle\Form\UserEventType", $userEvent, ["userConnected" => $userConnected]);
-
-        $form2->handleRequest($request);
-
-        if ($form2->isSubmitted() && $form2->isValid()) {
-
-
-            $data = $form2->getData();
-            $tab = $data->getUsrOid();
-
-            foreach ($tab as $test) {
-                $userEvent2 = new UserEvent();
-                $userEvent2->setIsParticipating(false);
-                $userEvent2->setEveOid($event);
-                $userEvent2->setUsrOid($test);
-                $em->persist($userEvent2);
+                $em->persist($user);
+                $em->persist($userEvent);
                 $em->flush();
+
+                return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
+            }
+
+            $participants = $em->getRepository("AppBundle:UserEvent")->findByEveOid($id);
+
+
+            $userConnected = $this->getUser();
+
+            $userEvent = new UserEvent();
+        //formulaire pour rajouter un participant déjà existant
+            $form2 = $this->createForm("AppBundle\Form\UserEventType", $userEvent, ["userConnected" => $userConnected]);
+
+            $form2->handleRequest($request);
+
+            if ($form2->isSubmitted() && $form2->isValid()) {
+
+
+                $data = $form2->getData();
+                $tab = $data->getUsrOid();
+
+                foreach ($tab as $test) {
+                    $userEvent2 = new UserEvent();
+                    $userEvent2->setIsParticipating(false);
+                    $userEvent2->setEveOid($event);
+                    $userEvent2->setUsrOid($test);
+                    $em->persist($userEvent2);
+                    $em->flush();
+
+                }
+
+
+
+
+
+                return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
 
             }
 
-
-
-
-
-            return $this->redirectToRoute('workshop_event_participant', array('id' => $id));
+            return $this->render('event/select_participant.html.twig', array(
+                'form1' => $form1->createView(),
+                'participants' => $participants,
+                'form2' => $form2->createView(),
+            ));
+        } else {
+            return new Response("Accès refusé");
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        return $this->render('event/select_participant.html.twig', array(
-            'form1' => $form1->createView(),
-            'participants' => $participants,
-            'form2' => $form2->createView(),
-        ));
-
     }// fin de la méthode selectAction
 
     /**
@@ -265,13 +238,19 @@ class UserEventController extends Controller
      * @Route("/delete/{id}", name="workshop_event_delete_participant", requirements={"id"="\d+"})
      * @Method("GET")
      */
-    public function deleteParticipantEventAction(UserEvent $userEvent){
-        $idEvent = $userEvent->getEveOid()->getId();
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($userEvent);
-        $em->flush();
+    public function deleteParticipantEventAction(UserEvent $userEvent)
+    {
+        if ($this->checkUserLegacy($userEvent->getUsrOid()->getLeaderOid())) {
+            $idEvent = $userEvent->getEveOid()->getId();
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($userEvent);
+            $em->flush();
 
-        return $this->redirectToRoute('workshop_event_participant', array('id' => $idEvent));
+            return $this->redirectToRoute('workshop_event_participant', array('id' => $idEvent));
+        } else {
+            return new Response("Accès refusé");
+
+        }
     }
 
 
@@ -289,6 +268,15 @@ class UserEventController extends Controller
     }
 
 
+    public function checkUserLegacy($user)
+    {
+        $userConnected = $this->getUser();
+        if ($userConnected === $user) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
 

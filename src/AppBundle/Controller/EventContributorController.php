@@ -31,31 +31,31 @@ class EventContributorController extends Controller
      * @Route("/event/{id}/select", name="workshop_event_contributor")
      * @Method({"GET", "POST"})
      */
-    public function selectContribtorAction(Request $request,$id)
+    public function selectContribtorAction(Request $request, $id)
     {
-
-        $user = $this->getUser();
-        $eventContributor = new Eventcontributor();
         $em = $this->getDoctrine()->getManager();
-
-
         $event = $em->getRepository('AppBundle:Event')->findOneById($id);
-        $workshop = $event->getWorOid();
-        if ($workshop->getUsrOid() === $this->getUser()) {
-           
+        if ($this->checkUserLegacy($event)) {
+
+            $user = $this->getUser();
+            $eventContributor = new Eventcontributor();
+
+
+            $workshop = $event->getWorOid();
+
 
 
             $form = $this->createForm('AppBundle\Form\EventContributorSelectType', $eventContributor, ["user" => $user]);
             $form->handleRequest($request);
-            
+
             $contributorList = $em->getRepository("AppBundle:EventContributor")->findByEveOid($event);
-            
+
             $contributor = new Contributor;
-            $form2 =$this->createForm("AppBundle\Form\ContributorType", $contributor);
+            $form2 = $this->createForm("AppBundle\Form\ContributorType", $contributor);
             $form2->handleRequest($request);
 
 
-        
+
             if ($form->isSubmitted() && $form->isValid()) {
 
                 $eventContributor->setEveOid($event);
@@ -72,13 +72,13 @@ class EventContributorController extends Controller
 
                 $contributor->setIsMnms(0);
 
-                $eventContributor->setEveOid($event);            
+                $eventContributor->setEveOid($event);
                 $eventContributor->setConOid($contributor);
                 $eventContributor->setNeededNumber(1);
 
 
                 $em->persist($contributor);
-                $em->persist($eventContributor);            
+                $em->persist($eventContributor);
                 $em->flush();
 
                 return $this->redirectToRoute('workshop_event_contributor', array('id' => $id));
@@ -86,12 +86,12 @@ class EventContributorController extends Controller
 
             return $this->render('event/select_contributor.html.twig', array(
                 'eventContributor' => $eventContributor,
-                'event' => $id,         
+                'event' => $id,
                 'form' => $form->createView(),
                 'form2' => $form2->createView(),
                 'contributorList' => $contributorList,
             ));
-        } else{
+        } else {
             return new Response('accès refusé');
         }
     }
@@ -106,9 +106,13 @@ class EventContributorController extends Controller
     {
 
 
+        $em = $this->getDoctrine()->getManager();
+        $event = $em->getRepository('AppBundle:Event')->findOneById($id);
 
-            $em = $this->getDoctrine()->getManager();
-            $eventContributor = $em->getRepository('AppBundle:EventContributor')->findOneById($id);
+        $eventContributor = $em->getRepository('AppBundle:EventContributor')->findOneById($id);
+        $event= $eventContributor->getEveOid();
+        if ($this->checkUserLegacy($event)) {
+
             $idEvent = $eventContributor->getEveOid()->getId();
             $idContributor = $eventContributor->getConOid();
 
@@ -116,7 +120,7 @@ class EventContributorController extends Controller
             $em->flush();
 
             $contributorVerificationRestant = $em->getRepository("AppBundle:EventContributor")->findByConOid($idContributor);
-            
+
             if (empty($contributorVerificationRestant)) {
                 $contributor = $em->getRepository('AppBundle:Contributor')->findOneById($idContributor);
                 if (!$contributor->getIsMnms()) {
@@ -125,11 +129,23 @@ class EventContributorController extends Controller
                 }
             }
 
-        return $this->redirectToRoute('workshop_event_contributor', array('id' => $idEvent));
+            return $this->redirectToRoute('workshop_event_contributor', array('id' => $idEvent));
+        } else {
+            return new Response('accès refusé');
+        }
     }
 
 
-
+    public function checkUserLegacy($event)
+    {
+        $userConnected = $this->getUser();
+        $workshopUsrOid = $event->getWorOid()->getUsrOid();
+        if ($userConnected === $workshopUsrOid) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 
@@ -290,7 +306,6 @@ class EventContributorController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('workshop_contributor_list_delete', array('id' => $eventContributor->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 }

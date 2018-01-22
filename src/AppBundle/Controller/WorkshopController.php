@@ -48,6 +48,7 @@ class WorkshopController extends Controller
             'workshops' => $workshops,
             'archive' => false,
         ));
+
     }
     /**
      * Liste les ateliers de l'utilisateur archivés.
@@ -75,7 +76,7 @@ class WorkshopController extends Controller
         $workshop = new Workshop();
         $workshop->setUsrOid($user);
         $workshop->setIsArchived(false);
-        
+
 
         $form = $this->createForm('AppBundle\Form\WorkshopType', $workshop);
         $form->handleRequest($request);
@@ -102,8 +103,8 @@ class WorkshopController extends Controller
      */
     public function showAction(Workshop $workshop)
     {
-           
-        if($this->checkUserLegacy($workshop)) {
+
+        if ($this->checkUserLegacy($workshop)) {
 
             $em = $this->getDoctrine()->getManager();
             $events = $em->getRepository('AppBundle:Event')->findByWorOid($workshop);
@@ -113,7 +114,7 @@ class WorkshopController extends Controller
                 'workshop' => $workshop,
                 'delete_form' => $deleteForm->createView(),
                 'events' => $events,
-                
+
             ));
         } else {
             return new Response("accès refusé");
@@ -131,21 +132,26 @@ class WorkshopController extends Controller
      */
     public function editAction(Request $request, Workshop $workshop)
     {
-        $deleteForm = $this->createDeleteForm($workshop);
-        $editForm = $this->createForm('AppBundle\Form\WorkshopType', $workshop);
-        $editForm->handleRequest($request);
+        if ($this->checkUserLegacy($workshop)) {
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $deleteForm = $this->createDeleteForm($workshop);
+            $editForm = $this->createForm('AppBundle\Form\WorkshopType', $workshop);
+            $editForm->handleRequest($request);
 
-            return $this->redirectToRoute('workshop_edit', array('id' => $workshop->getId()));
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('workshop_edit', array('id' => $workshop->getId()));
+            }
+
+            return $this->render('workshop/edit.html.twig', array(
+                'workshop' => $workshop,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+            return new Response("accès refusé");
         }
-
-        return $this->render('workshop/edit.html.twig', array(
-            'workshop' => $workshop,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -180,17 +186,17 @@ class WorkshopController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('workshop_delete', array('id' => $workshop->getId())))
             ->setMethod('DELETE')
-            ->getForm()
-        ;
+            ->getForm();
     }
 
-     public function checkUserLegacy($workshop) {
+    public function checkUserLegacy($workshop)
+    {
         $userConnected = $this->getUser();
         $worUsrId = $workshop->getUsrOid();
-        if($userConnected === $worUsrId) {
+        if ($userConnected === $worUsrId) {
             return true;
         } else {
-           return false;
+            return false;
         }
     }
 
