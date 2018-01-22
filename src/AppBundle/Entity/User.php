@@ -70,7 +70,7 @@ class User extends BaseUser
     private $avatar;
 
     /**
-     * * @Assert\File(
+     * * @Assert\Image(
      *     maxSize = "500k",
      *     mimeTypes = {"image/jpeg", "image/png"},
      *     mimeTypesMessage = "Mauvais format d'image"
