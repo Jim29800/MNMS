@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a class="btn btn-default btn-block" href="{{ path('workshop_list') }}">Terminer</a>
+    <!-- <a class="btn btn-default btn-block" href="{{ path('workshop_list') }}">Terminer</a> -->
+    <a class="btn btn-default btn-block" href="{{ path('workshop_event_participant', { "id" : event }) }}">Terminer</a>
+
 
     <h1>Selectionner le facililitateur / expert à ajouter</h1>
     {{ form_start(form) }}
