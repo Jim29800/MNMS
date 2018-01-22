@@ -2,18 +2,22 @@
 
 {% block body %}
     <div class="col-xs-12 col-md-offset-3 col-md-6 text-center">
+    <h1>Création d'un événement</h1>
 
-        <h1>Event creation</h1>
+
+        <h1>Création d'un événement</h1>
 
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input class="form-bottom-margin" type="submit" value="Create"/>
-        {{ form_end(form) }}
 
-        <ul class='list-unstyled'>
-            <li class="form-bottom-margin">
-                <a class="btn btn-default href=" {{ path('workshop_event_index') }} ">Back to the list</a>
-            </li>
-        </ul>
+        <input class="form-bottom-margin" type="submit" value="Créer" />
+    {{ form_end(form) }}
+
+    <ul class='list-unstyled'>
+        <li class="form-bottom-margin">
+            <a href="{{ path('workshop_show', { 'id': event.worOid.id }) }}">Retour à l'atelier</a>
+        </li>
+    </ul>
     </div>
 {% endblock %}
+
