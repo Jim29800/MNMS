@@ -67,21 +67,26 @@ class RoomController extends Controller
      */
     public function editAction(Request $request, Room $room)
     {
-        $deleteForm = $this->createDeleteForm($room);
-        $editForm = $this->createForm('AppBundle\Form\RoomEditType', $room);
-        $editForm->handleRequest($request);
+        if ($this->checkUserLegacy($room)) {
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $deleteForm = $this->createDeleteForm($room);
+            $editForm = $this->createForm('AppBundle\Form\RoomEditType', $room);
+            $editForm->handleRequest($request);
 
-            return $this->redirectToRoute('workshop_room_edit', array('id' => $room->getId()));
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('workshop_room_edit', array('id' => $room->getId()));
+            }
+
+            return $this->render('room/edit.html.twig', array(
+                'room' => $room,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+            return new Response('accès refusé');
         }
-
-        return $this->render('room/edit.html.twig', array(
-            'room' => $room,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
