@@ -152,11 +152,15 @@ class UserEventController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
+        //formulaire pour créer un nouveau participant non existant
         $form1 = $this->createForm('AppBundle\Form\UserRepertoireType', $user);
         $form1->handleRequest($request);
+
+        // on récupère l'objet event correspondant à l'id passé dans l'url
         $event = $em->getRepository("AppBundle:Event")->findOneById($id);
 
         if($form1->isSubmitted() && $form1->isValid()) {
+            //paramètres par défaut obligatoires------------------
             $lastUserId = $em->getRepository(User::class)->findLastUser()->getId();
             $lastUserId ++;
             $firstName = $user->getFirstname();
@@ -166,7 +170,7 @@ class UserEventController extends Controller
             $user->setLeaderOid($this->getUser());
             $user->setPassword(password_hash($this->generatePassword(), PASSWORD_BCRYPT));
             $user->setUsername($userName);
-
+            //------------------------------------------------------
 
             $userEvent = new UserEvent();
 
@@ -187,7 +191,7 @@ class UserEventController extends Controller
 $userConnected = $this->getUser();
 
 $userEvent = new UserEvent();
-
+//formulaire pour rajouter un participant déjà existant
 $form2 = $this->createForm("AppBundle\Form\UserEventType", $userEvent,["userConnected" => $userConnected]);
 
 $form2->handleRequest($request);

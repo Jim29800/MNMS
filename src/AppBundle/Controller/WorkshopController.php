@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Workshop controller.
@@ -100,16 +102,22 @@ class WorkshopController extends Controller
      */
     public function showAction(Workshop $workshop)
     {
-        $em = $this->getDoctrine()->getManager();
-        $events = $em->getRepository('AppBundle:Event')->findByWorOid($workshop);
+           
+        if($this->checkUserLegacy($workshop)) {
 
-        $deleteForm = $this->createDeleteForm($workshop);
-        return $this->render('workshop/show.html.twig', array(
-            'workshop' => $workshop,
-            'delete_form' => $deleteForm->createView(),
-            'events' => $events,
-            
-        ));
+            $em = $this->getDoctrine()->getManager();
+            $events = $em->getRepository('AppBundle:Event')->findByWorOid($workshop);
+
+            $deleteForm = $this->createDeleteForm($workshop);
+            return $this->render('workshop/show.html.twig', array(
+                'workshop' => $workshop,
+                'delete_form' => $deleteForm->createView(),
+                'events' => $events,
+                
+            ));
+        } else {
+            return new Response("accès refusé");
+        }
 
 
 
@@ -176,7 +184,15 @@ class WorkshopController extends Controller
         ;
     }
 
-
+     public function checkUserLegacy($workshop) {
+        $userConnected = $this->getUser();
+        $worUsrId = $workshop->getUsrOid();
+        if($userConnected === $worUsrId) {
+            return true;
+        } else {
+           return false;
+        }
+    }
 
 
 }

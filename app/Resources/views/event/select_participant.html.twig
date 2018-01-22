@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<a class="btn btn-default btn-block" href="{{ path('workshop_list') }}">Terminer</a>
 
+    <h2>Sélection des participants</h2>
     {{ form_start(form2) }}
 
     {{ form_widget(form2.usrOid) }}
