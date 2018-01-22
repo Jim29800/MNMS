@@ -95,17 +95,14 @@ class UserController extends Controller
     {
         
 
-        if ($this->checkUserLegacy($user)) {
-            $user = $this->getUser();
+        $user = $this->getUser();
             $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('AppBundle:User')
                 ->findBy(array("leaderOid" => $user), array('lastname' => 'ASC'));
             return $this->render('user/list.html.twig', array(
                 'users' => $users,
             ));
-        } else {
-            return new Response("Accès refusé");
-        }
+
     }
 
 
