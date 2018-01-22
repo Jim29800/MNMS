@@ -29,12 +29,8 @@
 <a href="{{ path('workshop_show', { 'id': event.worOid.id }) }}">Retour à l'atelier</a>
         </li>
         <li>
-            <a href="{{ path('workshop_event_edit', { 'id': event.id }) }}">Edit</a>
+            <a href="{{ path('workshop_event_edit', { 'id': event.id }) }}">Modifier</a>
         </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
+       
     </ul>
 {% endblock %}
