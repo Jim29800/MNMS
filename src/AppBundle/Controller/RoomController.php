@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Room controller.
@@ -27,6 +28,7 @@ class RoomController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $rooms = $em->getRepository('AppBundle:Room')->findAllRoom($id);
+       
         
         return $this->render('room/index.html.twig', array(
             'rooms' => $rooms,
@@ -42,12 +44,19 @@ class RoomController extends Controller
      */
     public function showAction(Room $room)
     {
-        $deleteForm = $this->createDeleteForm($room);
+        
+        if ($this->checkUserLegacy($room)) {
 
-        return $this->render('room/show.html.twig', array(
-            'room' => $room,
-            'delete_form' => $deleteForm->createView(),
-        ));
+            $deleteForm = $this->createDeleteForm($room);
+
+            return $this->render('room/show.html.twig', array(
+                'room' => $room,
+                'delete_form' => $deleteForm->createView(),
+            ));
+        }else {
+            return new Response('accès refusé');
+        }
+
     }
 
     /**
@@ -58,21 +67,26 @@ class RoomController extends Controller
      */
     public function editAction(Request $request, Room $room)
     {
-        $deleteForm = $this->createDeleteForm($room);
-        $editForm = $this->createForm('AppBundle\Form\RoomEditType', $room);
-        $editForm->handleRequest($request);
+        if ($this->checkUserLegacy($room)) {
 
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $deleteForm = $this->createDeleteForm($room);
+            $editForm = $this->createForm('AppBundle\Form\RoomEditType', $room);
+            $editForm->handleRequest($request);
 
-            return $this->redirectToRoute('workshop_room_edit', array('id' => $room->getId()));
+            if ($editForm->isSubmitted() && $editForm->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('workshop_room_edit', array('id' => $room->getId()));
+            }
+
+            return $this->render('room/edit.html.twig', array(
+                'room' => $room,
+                'edit_form' => $editForm->createView(),
+                'delete_form' => $deleteForm->createView(),
+            ));
+        } else {
+            return new Response('accès refusé');
         }
-
-        return $this->render('room/edit.html.twig', array(
-            'room' => $room,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
     }
 
     /**
@@ -110,4 +124,23 @@ class RoomController extends Controller
             ->getForm()
         ;
     }
+
+
+
+
+
+    public function checkUserLegacy(Room $room)
+    {
+        
+        $em = $this->getDoctrine()->getManager();
+        $event = $em->getRepository("AppBundle:Event")->findOneByRooOid($room);
+        $workshop = $event->getWorOid();
+        if ($workshop->getUsrOid() === $this->getUser()) {
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
 }
