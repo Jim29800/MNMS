@@ -1,7 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{% for event in events %}
-    {{ event.title }} : {{ event.date|date("d-m-Y H:i") }}<br>
-{% endfor %}
+    <h2>Planning</h2>
+    <table class="table">
+        
+    {% for event in events %}
+    <tr>
+        <td>{{ event.date|date("d-m-Y H:i") }}</td>
+        <td>nom de l'atelier</td>
+        <td>{{ event.title }}</td>
+    <!-- : <br> -->
+    </tr>
+    {% endfor %}
+    
+    </table>
 {% endblock %}
