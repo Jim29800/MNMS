@@ -14,16 +14,18 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+{% if app.user %}
+                
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img class="logo-navbar" src="/images/mnms-logo.png" alt="logo mnms"> 
+                        <img class="logo-navbar" src="/images/mnms-logo.png" alt="logo mnms">
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="/profile">Profil</a>
                         </li>
                         <li>
-                            <a href="{{ path("planning") }}">Planning</a>
+                            <a href="{{ path("planning") }}") }}>Planning</a>
                         </li>
                         <li>
                             <a href="/user">Répertoire</a>
@@ -53,63 +55,67 @@
                             <a href="#">Tuto</a>
                         </li>
                     </ul>
+                </li>
+{% endif %}
+                
                 <li class="hidden-xs">
                     <a class="navbar-brand" href="/">My Need My Solution</a>
                 </li>
             </ul>
+            
             <ul class="nav navbar-nav navbar-right">
-             {% if app.user %}
-                <!-- images pour mes ateliers -->
-                <li class="hidden-xs">
-                    <a class="" href="/workshop">
-                        <i class="glyphicon glyphicon-inbox icon-navbar "></i>
-                    </a>
-                </li>
-
-                <!-- image pour mon profil -->
-                <li class="hidden-xs">
-                    <a class="menu-profil" href="/profile">
-                        <i class="glyphicon glyphicon-user icon-navbar "></i>
-                    </a>
-                </li>
-                <!-- dropdown    -->
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <i class="glyphicon glyphicon-cog icon-navbar icon-dropdown"></i>
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="#">choisir une image</a>
-                        </li>
-                        <li>
-                            <a href="#">créer des collaborateurs</a>
-                        </li>
-                        <li>
-                            <a href="#">ce que je souhaite partager avec MNMS ou pas</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                            <a href="#">adresse de facturation</a>
-                        </li>
-                        <li>
-                            <a href="#">moyen de paiement</a>
-                        </li>
-                        
-                    </ul>
-                    <li>
-                        <a href="/logout">
-                            <i class="glyphicon glyphicon-log-out icon-navbar icon-logout"></i>
+                {% if app.user %}
+                    <!-- images pour mes ateliers -->
+                    <li class="hidden-xs">
+                        <a class="" href="/workshop">
+                            <i class="glyphicon glyphicon-inbox icon-navbar "></i>
                         </a>
                     </li>
-            {% else %}
-                <li>
-                    <a href="/login">
-                        <i class="glyphicon glyphicon-log-in icon-navbar icon-logout"></i>
-                    </a>
-                </li>
-            {% endif %}
-                    </ul>
-                </li>
+
+                    <!-- image pour mon profil -->
+                    <li class="hidden-xs">
+                        <a class="menu-profil" href="/profile">
+                            <i class="glyphicon glyphicon-user icon-navbar "></i>
+                        </a>
+                    </li>
+                    <!-- dropdown -->
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="glyphicon glyphicon-cog icon-navbar icon-dropdown"></i>
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">choisir une image</a>
+                            </li>
+                            <li>
+                                <a href="#">créer des collaborateurs</a>
+                            </li>
+                            <li>
+                                <a href="#">ce que je souhaite partager avec MNMS ou pas</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="#">adresse de facturation</a>
+                            </li>
+                            <li>
+                                <a href="#">moyen de paiement</a>
+                            </li>
+
+                        </ul>
+                        <li>
+                            <a href="/logout">
+                                <i class="glyphicon glyphicon-log-out icon-navbar icon-logout"></i>
+                            </a>
+                        </li>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="/login">
+                            <i class="glyphicon glyphicon-log-in icon-navbar icon-logout"></i>
+                        </a>
+                    </li>
+
+                {% endif %}
             </ul>
         </div>
         <!--/.nav-collapse -->
