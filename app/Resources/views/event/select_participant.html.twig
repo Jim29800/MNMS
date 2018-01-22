@@ -16,20 +16,29 @@
     <input type="submit" value="Créer"/>
     {{ form_end(form1)}}
 
-    <ul>
-        {% for participant in participants %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Adresse email</th>
+            <th>Supprimer</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for participant in participants %}
 
-            <li>
+        <tr>
+                <td>{{ participant.usrOid.firstname}}</td>
+                <td>{{ participant.usrOid.lastname}}</td>
+                <td>{{ participant.usrOid.email}}</td>
+<td>
+    <a class="btn btn-danger btn-block" href="{{ path("workshop_event_delete_participant", {'id' : participant.id }) }}">X</a>
+</td>
+        </tr>
 
-                <ul>
-
-                    <li>{{ participant.usrOid.firstname}}</li>
-                    <li>{{ participant.usrOid.lastname}}</li>
-                    <li>{{ participant.usrOid.email}}</li>
-                </ul>
-            </li>
-
-        {% endfor %}
-    </ul>
+    {% endfor %}
+    <tbody>
+</table>
 
 {% endblock %}
