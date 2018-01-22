@@ -7,10 +7,10 @@
 
     <table class="table">
         <tbody>
-            <tr>
+            {# <tr>
                 <th>Id</th>
                 <td>{{ workshop.id }}</td>
-            </tr>
+            </tr> #}
             <tr>
                 <th>Titre</th>
                 <td>{{ workshop.title }}</td>
@@ -23,10 +23,10 @@
                 <th>But</th>
                 <td>{{ workshop.goal }}</td>
             </tr>
-            <tr>
+            {# <tr>
                 <th>Ispublic</th>
                 <td>{% if workshop.isPublic %}Yes{% else %}No{% endif %}</td>
-            </tr>
+            </tr> #}
         </tbody>
     </table>
 
@@ -40,18 +40,18 @@
 <li class="form-bottom-margin">
 <a class="btn btn-default btn-block"  href="{{ path('workshop_edit', { 'id': workshop.id }) }}">Modifier</a>
         </li>
-        <li>
+        {# <li>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
-        </li>
+        </li> #}
     </ul>
     </div>
 <h2 class="col-xs-12 text-center">Liste des événements de l'atelier : {{ workshop.title }}</h2>
 <table class="table table-bordered col-xs-12">
     <thead>
         <tr>
-            <th>Id</th>
+            {# <th>Id</th> #}
             <th>Date</th>
             <th>Terminé</th>
             <th>Restitué</th>
@@ -61,15 +61,15 @@
     <tbody>
         {% for event in events %}
             <tr>
-                <td>
+                {# <td>
                     <a href="{{ path('workshop_event_show', { 'id': event.id }) }}">{{ event.id }}</a>
-                </td>
+                </td> #}
                 <td>
                     {% if event.date %}{{ event.date|date('Y-m-d H:i:s') }}
                     {% endif %}
                 </td>
                 <td>
-                    {% if event.isOver %}Yes{% else %}No{% endif %}
+                    {% if event.isOver %}Oui{% else %}Non{% endif %}
                 </td>
                 <td>
                     {% if event.isReturned %}Yes{% else %}No{% endif %}
