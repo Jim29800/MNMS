@@ -17,7 +17,7 @@ class RoomRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT r.Name, r.id
+                'SELECT DISTINCT r.Name, r.id
                 FROM AppBundle:Room r 
                 INNER JOIN AppBundle:Event e WITH r.id = e.rooOid
                 INNER JOIN AppBundle:Workshop w WITH e.worOid = w.id
