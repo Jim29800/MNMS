@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 use AppBundle\Form\EventContributorSelectType;
 
 
@@ -31,59 +33,67 @@ class EventContributorController extends Controller
      */
     public function selectContribtorAction(Request $request,$id)
     {
+
+        $user = $this->getUser();
         $eventContributor = new Eventcontributor();
         $em = $this->getDoctrine()->getManager();
 
-        $user = $this->getUser();
 
         $event = $em->getRepository('AppBundle:Event')->findOneById($id);
+        $workshop = $event->getWorOid();
+        if ($workshop->getUsrOid() === $this->getUser()) {
+           
 
-        $form = $this->createForm('AppBundle\Form\EventContributorSelectType', $eventContributor, ["user" => $user]);
-        $form->handleRequest($request);
+
+            $form = $this->createForm('AppBundle\Form\EventContributorSelectType', $eventContributor, ["user" => $user]);
+            $form->handleRequest($request);
+            
+            $contributorList = $em->getRepository("AppBundle:EventContributor")->findByEveOid($event);
+            
+            $contributor = new Contributor;
+            $form2 =$this->createForm("AppBundle\Form\ContributorType", $contributor);
+            $form2->handleRequest($request);
+
+
         
-        $contributorList = $em->getRepository("AppBundle:EventContributor")->findByEveOid($event);
-        
-        $contributor = new Contributor;
-        $form2 =$this->createForm("AppBundle\Form\ContributorType", $contributor);
-        $form2->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $eventContributor->setEveOid($event);
+
+                $em->persist($eventContributor);
+                $em->flush();
 
 
-        
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $eventContributor->setEveOid($event);
-
-            $em->persist($eventContributor);
-            $em->flush();
+                return $this->redirectToRoute('workshop_event_contributor', array('id' => $id));
+            }
 
 
-            return $this->redirectToRoute('workshop_event_contributor', array('id' => $id));
+            if ($form2->isSubmitted() && $form2->isValid()) {
+
+                $contributor->setIsMnms(0);
+
+                $eventContributor->setEveOid($event);            
+                $eventContributor->setConOid($contributor);
+                $eventContributor->setNeededNumber(1);
+
+
+                $em->persist($contributor);
+                $em->persist($eventContributor);            
+                $em->flush();
+
+                return $this->redirectToRoute('workshop_event_contributor', array('id' => $id));
+            }
+
+            return $this->render('event/select_contributor.html.twig', array(
+                'eventContributor' => $eventContributor,
+                'event' => $id,         
+                'form' => $form->createView(),
+                'form2' => $form2->createView(),
+                'contributorList' => $contributorList,
+            ));
+        } else{
+            return new Response('accès refusé');
         }
-
-
-        if ($form2->isSubmitted() && $form2->isValid()) {
-
-            $contributor->setIsMnms(0);
-
-            $eventContributor->setEveOid($event);            
-            $eventContributor->setConOid($contributor);
-            $eventContributor->setNeededNumber(1);
-
-
-            $em->persist($contributor);
-            $em->persist($eventContributor);            
-            $em->flush();
-
-            return $this->redirectToRoute('workshop_event_contributor', array('id' => $id));
-        }
-
-        return $this->render('event/select_contributor.html.twig', array(
-            'eventContributor' => $eventContributor,
-            'event' => $id,         
-            'form' => $form->createView(),
-            'form2' => $form2->createView(),
-            'contributorList' => $contributorList,
-        ));
     }
 
     /**
