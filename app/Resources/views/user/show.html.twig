@@ -7,10 +7,10 @@
 
     <table class="table">
         <tbody>
-            <tr>
+            {# <tr>
                 <th>Id</th>
                 <td>{{ user.id }}</td>
-            </tr>
+            </tr> #}
             <tr>
                 <th>Prénom</th>
                 <td>{{ user.firstname }}</td>
@@ -40,11 +40,11 @@
         <li class="form-bottom-margin">
             <a class="btn btn-default  " href="{{ path('user_edit', { 'id': user.id }) }}">Modifier</a>
         </li>
-        <li>
+        {# <li>
             {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
             {{ form_end(delete_form) }}
-        </li>
+        </li> #}
     </ul>
 </div>
 {% endblock %}

@@ -6,7 +6,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                {# <th>Id</th> #}
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Fonction</th>
@@ -16,9 +16,9 @@
         <tbody>
             {% for user in users %}
                 <tr>
-                    <td>
+                    {# <td>
                         <a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a>
-                    </td>
+                    </td> #}
                     <td>{{ user.firstname }}</td>
                     <td>{{ user.lastname }}</td>
                     <td>{{ user.function }}</td>

@@ -14,11 +14,11 @@
             <li class="form-bottom-margin">
                 <a class="btn btn-default btn-block " href="{{ path('user_list', { 'id': user.id }) }}">Retour à la liste</a>
             </li>
-            <li>
+            {# <li>
                 {{ form_start(delete_form) }}
                 <input type="submit" value="Delete">
                 {{ form_end(delete_form) }}
-            </li>
+            </li> #}
         </ul>
     </div>
 {% endblock %}
